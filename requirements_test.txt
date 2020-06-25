@@ -1,0 +1,2 @@
+-r spiderfoot/requirements_test.txt
+urllib3~=1.25.9
