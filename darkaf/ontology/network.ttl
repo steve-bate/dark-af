@@ -1,0 +1,338 @@
+@prefix schema: <http://schema.org/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dctype: <http://purl.org/dc/dcmitype/> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfa: <http://www.w3.org/ns/rdfa#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix snomed: <http://purl.bioontology.org/ontology/SNOMEDCT/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix net: <http://www.mirabeau.tech/network#> .
+
+net:IPAddress a rdfs:Class ;
+    rdfs:label "IPAddress" ;
+    rdfs:comment """An Internet Protocol address (IP address) is a numerical label assigned
+        to each device connected to a computer network that
+        uses the Internet Protocol for communication.""" ;
+    rdfs:subClassOf schema:Thing .
+
+net:ipaddress a rdf:Property ;
+    rdfs:label "address" ;
+    schema:domainIncludes net:IPAddress ;
+    schema:rangeIncludes schema:Text ;
+    rdfs:comment "The string value of an IP address" .
+
+net:IPv4Address a rdfs:Class ;
+    rdfs:label "IPv4Address" ;
+    rdfs:comment """An IPv4 address has a size of 32 bits, which limits the address
+        space to 4294967296 (232) addresses.""" ;
+    rdfs:subClassOf net:IPAddress .
+
+net:IPv6Address a rdfs:Class ;
+    rdfs:label "IPv6Address" ;
+    rdfs:comment """An IPv6, the address size is 128 bits,
+        thus providing up to 2128 (approximately 3.403×1038) addresses.""" ;
+    rdfs:subClassOf net:IPAddress .
+
+net:IPNetwork a rdfs:Class ;
+    rdfs:label "IPNetwork" ;
+    rdfs:subClassOf schema:Thing .
+
+net:netaddress a rdf:Property ;
+    rdfs:label "address" ;
+    schema:domainIncludes net:IPNetwork ;
+    schema:rangeIncludes schema:Text ;
+    rdfs:comment "The string value of the network IP address" .
+
+net:netmask a rdf:Property ;
+    rdfs:label "mask" ;
+    schema:domainIncludes net:IPNetwork ;
+    schema:rangeIncludes schema:Integer ;
+    rdfs:comment "The mask for IP network." .
+
+net:NetworkService a rdfs:Class ;
+    rdfs:label "NetworkService" ;
+    rdfs:comment """A service accessible from a computer network.""" ;
+    rdfs:subClassOf schema:Thing .
+
+net:hasEndpoint a rdf:Property ;
+    rdfs:label "hasEndpoint" ;
+    schema:domainIncludes net:NetworkService ;
+    schema:rangeIncludes net:NetworkEndpoint ;
+    rdfs:comment "The endpoint information for a network service." .
+
+net:DnsDomainService a rdfs:Class ;
+    rdfs:label "DNS" ;
+    rdfs:comment """Domain Name Service""" ;
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 53 ;
+    net:usesNetworkProtocol net:TcpProtocol ;
+    net:usesNetworkProtocol net:UdpProtocol .
+
+net:FtpNetworkService a rdfs:Class ;
+    rdfs:label "FTP" ;
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 20 ;
+    net:hasStandardPort 21 .
+
+net:SshNetworkService a rdfs:Class ;
+    rdfs:label "SSH" ;
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 22 .
+
+net:DhpcNetworkService a rdfs:Class ;
+    rdfs:label "DHCP" ;
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 67 ;
+    net:hasStandardPort 68 .
+
+net:TelnetNetworkService a rdfs:Class ;
+    rdfs:label "Telnet";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 23 .
+
+net:SMTPNetworkService a rdfs:Class ;
+    rdfs:label "SMTP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 25 .
+
+net:TFTPNetworkService a rdfs:Class ;
+    rdfs:label "TFTP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 69 .
+
+net:HTTPNetworkService a rdfs:Class ;
+    rdfs:label "HTTP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 80 .
+
+net:POP3NetworkService a rdfs:Class ;
+    rdfs:label "POP3";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 110 .
+
+net:NNTPNetworkService a rdfs:Class ;
+    rdfs:label "NNTP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 119 .
+
+net:NTPNetworkService a rdfs:Class ;
+    rdfs:label "NTP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 123 .
+
+net:IMAP4NetworkService a rdfs:Class ;
+    rdfs:label "IMAP4";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 143 .
+
+net:LDAPNetworkService a rdfs:Class ;
+    rdfs:label "LDAP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 389 .
+
+net:HTTPSNetworkService a rdfs:Class ;
+    rdfs:label "HTTPS";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 443 .
+
+net:IMAPSNetworkService a rdfs:Class ;
+    rdfs:label "IMAPS";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 993 .
+
+net:RADIUSNetworkService a rdfs:Class ;
+    rdfs:label "RADIUS";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 1812 .
+
+net:AIMNetworkService a rdfs:Class ;
+    rdfs:label "AIM";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 5190 .
+
+net:SmbNetworkService a rdfs:Class ;
+    rdfs:label "SMB";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 139 ;
+    net:hasStandardPort 445 .
+
+net:SnmpNetworkService a rdfs:Class ;
+    rdfs:label "SNMP";
+    rdfs:subClassOf net:NetworkService ;
+    net:hasStandardPort 161 .
+
+net:hasStandardPort a rdf:Property ;
+    rdfs:label "hasStandardPort" ;
+    schema:domainIncludes net:NetworkService ;
+    schema:rangeIncludes schema:Integer ;
+    rdfs:comment "The standard service port for a service." .
+
+net:NetworkEndpoint a rdfs:Class ;
+    rdfs:label "NetworkEndpoint" ;
+    rdfs:comment """A service accessible from a computer network.""" ;
+    rdfs:subClassOf schema:Thing .
+
+net:atNetworkAddress a rdf:Property ;
+    rdfs:label "atNetworkAddress" ;
+    schema:domainIncludes net:NetworkEndpoint ;
+    schema:rangeIncludes net:IPAddress ;
+    rdfs:comment "The string value of the network IP address" .
+
+net:atNetworkPort a rdf:Property ;
+    rdfs:label "atNetworkPort" ;
+    schema:domainIncludes net:NetworkEndpoint ;
+    schema:rangeIncludes schema:Integer ;
+    rdfs:comment "Tne endpoint port number" .
+
+net:usesNetworkProtocol a rdf:Property ;
+    rdfs:label "usesNetworkProtocol" ;
+    schema:domainIncludes net:NetworkEndpoint, net:NetworkProtocol ;
+    schema:rangeIncludes net:NetworkProtocol ;
+    rdfs:comment "The endpoint network protocol" .
+
+net:NetworkProtocol a rdfs:Class ;
+    rdfs:label "NetworkProtocol" ;
+    rdfs:comment """A messaging protocol used on a network.""" ;
+    rdfs:subClassOf schema:Thing .
+
+net:TcpProtocol a net:NetworkProtocol ;
+    rdfs:label "TCP" ;
+    rdfs:comment "Transmission Control Protocol".
+
+net:UdpProtocol a net:NetworkProtocol ;
+    rdfs:label "UDP" ;
+    rdfs:comment "User Datagram Protocol".
+
+net:DnsDomain a rdfs:Class ;
+    rdfs:label "DnsDomain" ;
+    rdfs:comment "A DNS name entry." ;
+    rdfs:subClassOf schema:Thing .
+
+net:hasDnsSubdomain a rdf:Property ;
+    rdfs:label "hasDnsSubdomain" ;
+    schema:domainIncludes net:DnsDomain ;
+    schema:rangeIncludes net:DnsDomain ;
+    rdfs:comment "A DNS subdomain." .
+
+net:hasDnsRecord a rdf:Property ;
+    rdfs:label "hasDnsRecord" ;
+    schema:domainIncludes net:DnsDomain ;
+    schema:rangeIncludes net:DnsRecord ;
+    rdfs:comment "A DNS record." .
+
+net:hasLocalEmail a rdf:Property ;
+    rdfs:label "hasLocalEmail" ;
+    schema:domainIncludes net:DnsDomain ;
+    schema:rangeIncludes schema:Text ;
+    rdfs:comment "A local part of an email address for this domain" .
+
+net:hasIpAddress a rdf:Property ;
+    rdfs:label "hasIpAddress" ;
+    schema:domainIncludes net:DnsDomain ;
+    schema:rangeIncludes net:IPAddress ;
+    rdfs:comment "A resolved domain IP address." .
+
+net:hasDnsRecord a rdf:Property ;
+    rdfs:label "hasDnsRecord" ;
+    schema:domainIncludes net:DnsDomainService ;
+    schema:rangeIncludes net:DnsRecord ;
+    rdfs:comment "The endpoint network protocol" .
+
+net:DnsRecord a rdfs:Class ;
+    rdfs:label "DnsRecord" ;
+    rdfs:comment """An entry/record in a Domain Name Service (DNS).""" ;
+    rdfs:subClassOf schema:Thing .
+
+net:DnsAddressRecord a rdfs:Class ;
+    rdfs:label "DnsAddressRecord" ;
+    rdfs:comment "DNS A (Address) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:DnsCnameRecord a rdfs:Class ;
+    rdfs:label "DnsCnameRecord" ;
+    rdfs:comment "DNS CNAME (Canonical Name) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:DnsMxRecord a rdfs:Class ;
+    rdfs:label "DnsMxRecord" ;
+    rdfs:comment "DNS MX (Mail Exchanger) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:DnsPtrRecord a rdfs:Class ;
+    rdfs:label "DnsPtrRecord" ;
+    rdfs:comment "DNS PTR (Pointer) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:DnsTxtRecord a rdfs:Class ;
+    rdfs:label "DnsTxtRecord" ;
+    rdfs:comment "DNS TXT (text) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:DnsSpfRecord a rdfs:Class ;
+    rdfs:label "DnsSpfRecord" ;
+    rdfs:comment "DNS SPF (Sender Policy Framework) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:DnsNsRecord a rdfs:Class ;
+    rdfs:label "DnsSpfRecord" ;
+    rdfs:comment "DNS NS (Name Server) record." ;
+    rdfs:subClassOf net:DnsRecord .
+
+net:EmailAddress a rdfs:Class ;
+    rdfs:label "EmailAddress" ;
+    rdfs:comment "An email address" ;
+    rdfs:subClassOf schema:Thing .
+
+net:emailLocalPart a rdf:Property ;
+    rdfs:label "emailAddress" ;
+    schema:domainIncludes net:EmailAddress ;
+    schema:rangeIncludes schema:Text ;
+    rdfs:comment "The email address local part." .
+
+net:emailDomain a rdf:Property ;
+    rdfs:label "emailAddress" ;
+    schema:domainIncludes net:EmailAddress ;
+    schema:rangeIncludes net:DnsDomain ;
+    rdfs:comment "The email domain name" .
+
+net:RegionalInternetRegistry a rdfs:Class ;
+    rdfs:label "RegionalInternetRegistry" ;
+    rdfs:comment """A regional Internet registry (RIR) is an organization that manages the allocation
+        and registration of Internet number resources within a region of the world.
+        Internet number resources include IP addresses and autonomous system (AS) numbers.s""" ;
+    rdfs:subClassOf schema:Thing .
+
+net:AmericanRegistryForInternetNumbers a net:RegionalInternetRegistry ;
+    schema:name "American Registry For Internet Numbers" ;
+    schema:comment """The American Registry for Internet Numbers (ARIN) serves Antarctica,
+        Canada, parts of the Caribbean, and the United States.""" ;
+    schema:url "https://www.arin.net" ;
+    schema:alternateName "ARIN" ;
+    .
+
+# TODO Add other registries
+# STIX
+#   * Autonomous System
+#   * IP Addresses
+#   * Files
+#   * MAC Address
+#   * HTTP Request
+#   * ICMP
+#   * Network Socket Extension / TCP Extension
+#   * Software Object
+#   * User Account Object
+
+
+
