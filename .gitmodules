@@ -1,3 +1,6 @@
 [submodule "spiderfoot"]
 	path = submodules/spiderfoot
 	url = https://github.com/steve-bate/spiderfoot.git
+[submodule ".\\submodules\\theHarvester"]
+	path = .\\submodules\\theHarvester
+	url = https://github.com/steve-bate/theHarvester
