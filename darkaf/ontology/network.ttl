@@ -27,11 +27,13 @@ net:IPAddress a rdfs:Class ;
         uses the Internet Protocol for communication.""" ;
     rdfs:subClassOf schema:Thing .
 
-net:ipaddress a rdf:Property ;
-    rdfs:label "address" ;
+# IPAddress.name is address value
+
+net:resolvesToMac a rdf:Property ;
+    rdfs:label "resolvesTo" ;
     schema:domainIncludes net:IPAddress ;
-    schema:rangeIncludes schema:Text ;
-    rdfs:comment "The string value of an IP address" .
+    schema:rangeIncludes net:MacAddress ;
+    rdfs:comment "The MAC address resolved from the IP address." .
 
 net:IPv4Address a rdfs:Class ;
     rdfs:label "IPv4Address" ;
@@ -44,6 +46,11 @@ net:IPv6Address a rdfs:Class ;
     rdfs:comment """An IPv6, the address size is 128 bits,
         thus providing up to 2128 (approximately 3.403×1038) addresses.""" ;
     rdfs:subClassOf net:IPAddress .
+
+net:MacAddress a rdfs:Class ;
+    rdfs:label "MacAddress" ;
+    rdfs:comment "MAC address" ;
+    rdfs:subClassOf schema:Thing .
 
 net:IPNetwork a rdfs:Class ;
     rdfs:label "IPNetwork" ;
@@ -295,17 +302,37 @@ net:EmailAddress a rdfs:Class ;
     rdfs:comment "An email address" ;
     rdfs:subClassOf schema:Thing .
 
-net:emailLocalPart a rdf:Property ;
-    rdfs:label "emailAddress" ;
-    schema:domainIncludes net:EmailAddress ;
-    schema:rangeIncludes schema:Text ;
-    rdfs:comment "The email address local part." .
+# property: EmailAddress.value
+# property: EmailAddress.displayName
+# property: EmailAddress.belongsTo
+
+#net:emailLocalPart a rdf:Property ;
+#    rdfs:label "emailAddress" ;
+#    schema:domainIncludes net:EmailAddress ;
+#    schema:rangeIncludes schema:Text ;
+#    rdfs:comment "The email address local part." .
 
 net:emailDomain a rdf:Property ;
     rdfs:label "emailAddress" ;
     schema:domainIncludes net:EmailAddress ;
     schema:rangeIncludes net:DnsDomain ;
     rdfs:comment "The email domain name" .
+
+net:UserAccount a rdf:Class ;
+    dct:source <https://docs.oasis-open.org/cti/stix/v2.1/cs01/stix-v2.1-cs01.htm> .
+
+net:userId a rdf:Property ;
+    rdfs:label "userId" ;
+    schema:domainIncludes net:UserAccount ;
+    schema:rangeIncludes schema:Text .
+
+net:accountType a rdf:Property ;
+    rdfs:label "accountType" ;
+    schema:domainIncludes net:UserAccount ;
+    schema:rangeIncludes schema:Text .
+
+# accountCreated
+# accountExpires
 
 net:RegionalInternetRegistry a rdfs:Class ;
     rdfs:label "RegionalInternetRegistry" ;
@@ -325,14 +352,11 @@ net:AmericanRegistryForInternetNumbers a net:RegionalInternetRegistry ;
 # TODO Add other registries
 # STIX
 #   * Autonomous System
-#   * IP Addresses
 #   * Files
-#   * MAC Address
 #   * HTTP Request
 #   * ICMP
 #   * Network Socket Extension / TCP Extension
 #   * Software Object
-#   * User Account Object
 
 
 
