@@ -1,0 +1,6518 @@
+[
+  {
+    "name": "abuse.ch",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain, IP or netblock is malicious according to abuse.ch.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "abusezeusdomain": true,
+      "abusezeusip": true,
+      "abusefeododomain": true,
+      "abusefeodoip": true,
+      "abusesslblip": true,
+      "abuseurlhaus": true,
+      "abuseransomdom": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "abusezeusdomain": "Enable abuse.ch Zeus domain check?",
+      "abusezeusip": "Enable abuse.ch Zeus IP check?",
+      "abusefeododomain": "Enable abuse.ch Feodo domain check?",
+      "abusefeodoip": "Enable abuse.ch Feodo IP check?",
+      "abusesslblip": "Enable abuse.ch SSL Backlist IP check?",
+      "abuseurlhaus": "Enable abuse.ch URLhaus check?",
+      "abuseransomdom": "Enable abuse.ch Ransom Domains check?",
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_abusech"
+  },
+  {
+    "name": "AbuseIPDB",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Check if a netblock or IP is malicious according to AbuseIPDB.com.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "api_key": "",
+      "daysback": 30,
+      "checkaffiliates": true,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "AbuseIPDB.com API key.",
+      "daysback": "How far back to query, in days?",
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_abuseipdb"
+  },
+  {
+    "name": "Account Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      "slow"
+    ],
+    "descr": "Look for possible associated accounts on nearly 200 websites like Ebay, Slashdot, reddit, etc.",
+    "provides": [
+      "USERNAME",
+      "ACCOUNT_EXTERNAL_OWNED"
+    ],
+    "consumes": [
+      "EMAILADDR",
+      "DOMAIN_NAME",
+      "HUMAN_NAME",
+      "USERNAME"
+    ],
+    "opts": {
+      "ignorenamedict": true,
+      "ignoreworddict": true,
+      "musthavename": true,
+      "userfromemail": true,
+      "_maxthreads": 50
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "ignorenamedict": "Don't bother looking up names that are just stand-alone first names (too many false positives).",
+      "ignoreworddict": "Don't bother looking up names that appear in the dictionary.",
+      "musthavename": "The username must be mentioned on the social media page to consider it valid (helps avoid false positives).",
+      "userfromemail": "Extract usernames from e-mail addresses at all? If disabled this can reduce false positives for common usernames but for highly unique usernames it would result in missed accounts."
+    },
+    "uri": "agent://spiderfoot/sfp_accounts"
+  },
+  {
+    "name": "AdBlock Check",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if linked pages would be blocked by AdBlock Plus.",
+    "provides": [
+      "URL_ADBLOCKED_INTERNAL",
+      "URL_ADBLOCKED_EXTERNAL"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {
+      "blocklist": "https://easylist-downloads.adblockplus.org/easylist.txt"
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "blocklist": "AdBlockPlus block list."
+    },
+    "uri": "agent://spiderfoot/sfp_adblock"
+  },
+  {
+    "name": "Ahmia",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Search Tor 'Ahmia' search engine for mentions of the target domain.",
+    "provides": [
+      "DARKNET_MENTION_URL",
+      "DARKNET_MENTION_CONTENT",
+      "SEARCH_ENGINE_WEB_CONTENT"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "HUMAN_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "fetchlinks": true,
+      "fullnames": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "fetchlinks": "Fetch the darknet pages (via TOR, if enabled) to verify they mention your target.",
+      "fullnames": "Search for human names?"
+    },
+    "uri": "agent://spiderfoot/sfp_ahmia"
+  },
+  {
+    "name": "AlienVault OTX",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from AlienVault Open Threat Exchange (OTX)",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "api_key": "",
+      "age_limit_days": 30,
+      "threat_score_min": 2,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24,
+      "checkaffiliates": true
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "AlienVault OTX API Key.",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
+      "threat_score_min": "Minimum AlienVault threat score.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "checkaffiliates": "Apply checks to affiliates?"
+    },
+    "uri": "agent://spiderfoot/sfp_alienvault"
+  },
+  {
+    "name": "AlienVault IP Reputation",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP or netblock is malicious according to the AlienVault IP Reputation database.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_alienvault": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_alienvaultiprep"
+  },
+  {
+    "name": "Apility",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search Apility API for IP address and domain reputation.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "IP_ADDRESS",
+      "PROVIDER_MAIL",
+      "PROVIDER_DNS",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 2,
+      "malicious_freemail": true
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Apility API key.",
+      "delay": "Delay between requests, in seconds.",
+      "malicious_freemail": "Consider free mail servers to be malicious."
+    },
+    "uri": "agent://spiderfoot/sfp_apility"
+  },
+  {
+    "name": "Archive.org",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "slow"
+    ],
+    "descr": "Identifies historic versions of interesting files/pages from the Wayback Machine.",
+    "provides": [
+      "INTERESTING_FILE_HISTORIC",
+      "URL_PASSWORD_HISTORIC",
+      "URL_FORM_HISTORIC",
+      "URL_FLASH_HISTORIC",
+      "URL_STATIC_HISTORIC",
+      "URL_JAVA_APPLET_HISTORIC",
+      "URL_UPLOAD_HISTORIC",
+      "URL_WEB_FRAMEWORK_HISTORIC",
+      "URL_JAVASCRIPT_HISTORIC"
+    ],
+    "consumes": [
+      "INTERESTING_FILE",
+      "URL_PASSWORD",
+      "URL_FORM",
+      "URL_FLASH",
+      "URL_STATIC",
+      "URL_JAVA_APPLET",
+      "URL_UPLOAD",
+      "URL_JAVASCRIPT",
+      "URL_WEB_FRAMEWORK"
+    ],
+    "opts": {
+      "farback": "30,60,90",
+      "intfiles": true,
+      "passwordpages": true,
+      "formpages": false,
+      "flashpages": false,
+      "javapages": false,
+      "staticpages": false,
+      "uploadpages": false,
+      "webframeworkpages": false,
+      "javascriptpages": false
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "farback": "Number of days back to look for older versions of files/pages in the Wayback Machine snapshots. Comma-separate the values, so for example 30,60,90 means to look for snapshots 30 days, 60 days and 90 days back.",
+      "intfiles": "Query the Wayback Machine for historic versions of Interesting Files.",
+      "passwordpages": "Query the Wayback Machine for historic versions of URLs with passwords.",
+      "formpages": "Query the Wayback Machine for historic versions of URLs with forms.",
+      "uploadpages": "Query the Wayback Machine for historic versions of URLs accepting uploads.",
+      "flashpages": "Query the Wayback Machine for historic versions of URLs containing Flash.",
+      "javapages": "Query the Wayback Machine for historic versions of URLs using Java Applets.",
+      "staticpages": "Query the Wayback Machine for historic versions of purely static URLs.",
+      "webframeworkpages": "Query the Wayback Machine for historic versions of URLs using Javascript frameworks.",
+      "javascriptpages": "Query the Wayback Machine for historic versions of URLs using Javascript."
+    },
+    "uri": "agent://spiderfoot/sfp_archiveorg"
+  },
+  {
+    "name": "ARIN",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Public Registries",
+    "labels": [
+      ""
+    ],
+    "descr": "Queries ARIN registry for contact information.",
+    "provides": [
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "HUMAN_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_arin"
+  },
+  {
+    "name": "Azure Blob Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Search for potential Azure blobs associated with the target and attempt to list their contents.",
+    "provides": [
+      "CLOUD_STORAGE_BUCKET"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {
+      "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+      "_maxthreads": 20
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "suffixes": "List of suffixes to append to domains tried as blob storage names"
+    },
+    "uri": "agent://spiderfoot/sfp_azureblobstorage"
+  },
+  {
+    "name": "badips.com",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a domain or IP is malicious according to badips.com.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_badips": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_badipscom"
+  },
+  {
+    "name": "Bad Packets",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information about any malicious activities involving IP addresses found",
+    "provides": [
+      "IP_ADDRESS",
+      "MALICIOUS_IPADDR",
+      "RAW_RIR_DATA",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "api_key": "",
+      "checkaffiliates": true,
+      "subnetlookup": false,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "maxsubnet": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Bad Packets API Key",
+      "checkaffiliates": "Check affiliates?",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_badpackets"
+  },
+  {
+    "name": "Bambenek C&C List",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain or IP appears on Bambenek Consulting's C&C tracker lists.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "bambip": true,
+      "bambdom": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "bambip": "Enable Bambenek IP check?",
+      "bambdom": "Enable Bambenek Domains check?",
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_bambenek"
+  },
+  {
+    "name": "Base64 Decoder",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify Base64-encoded strings in any content and URLs, often revealing interesting hidden information.",
+    "provides": [
+      "BASE64_DATA"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL",
+      "TARGET_WEB_CONTENT"
+    ],
+    "opts": {
+      "minlength": 10
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "minlength": "The minimum length a string that looks like a base64-encoded string needs to be."
+    },
+    "uri": "agent://spiderfoot/sfp_base64"
+  },
+  {
+    "name": "BGPView",
+    "cats": [
+      "Investigate",
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain network information from BGPView API.",
+    "provides": [
+      "BGP_AS_MEMBER",
+      "NETBLOCK_MEMBER",
+      "PHYSICAL_ADDRESS",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "BGP_AS_MEMBER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_bgpview"
+  },
+  {
+    "name": "BinaryEdge",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from BinaryEdge.io's Internet scanning systems about breaches, vulerabilities, torrents and passive DNS.",
+    "provides": [
+      "INTERNET_NAME",
+      "VULNERABILITY",
+      "TCP_PORT_OPEN",
+      "TCP_PORT_OPEN_BANNER",
+      "EMAILADDR_COMPROMISED",
+      "UDP_PORT_OPEN",
+      "UDP_PORT_OPEN_INFO",
+      "DOMAIN_NAME",
+      "CO_HOSTED_SITE",
+      "MALICIOUS_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "DOMAIN_NAME",
+      "EMAILADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "binaryedge_api_key": "",
+      "torrent_age_limit_days": 30,
+      "cve_age_limit_days": 30,
+      "port_age_limit_days": 90,
+      "maxpages": 10,
+      "verify": true,
+      "netblocklookup": false,
+      "maxnetblock": 24,
+      "subnetlookup": false,
+      "maxsubnet": 24,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "binaryedge_api_key": "BinaryEdge.io API Key.",
+      "torrent_age_limit_days": "Ignore any torrent records older than this many days. 0 = unlimited.",
+      "cve_age_limit_days": "Ignore any vulnerability records older than this many days. 0 = unlimited.",
+      "port_age_limit_days": "Ignore any discovered open ports/banners older than this many days. 0 = unlimited.",
+      "verify": "Verify that any hostnames found on the target domain still resolve?",
+      "maxpages": "Maximum number of pages to iterate through, to avoid exceeding BinaryEdge API usage limits. APIv2 has a maximum of 500 pages (10,000 results).",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_binaryedge"
+  },
+  {
+    "name": "Bing",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from bing to identify sub-domains and links.",
+    "provides": [
+      "LINKED_URL_INTERNAL",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "pages": 20,
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "pages": "Number of max bing results to request from the API.",
+      "api_key": "Bing API Key for Bing search."
+    },
+    "uri": "agent://spiderfoot/sfp_bingsearch"
+  },
+  {
+    "name": "Bing (Shared IPs)",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search Bing for hosts sharing the same IP.",
+    "provides": [
+      "CO_HOSTED_SITE",
+      "IP_ADDRESS",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "cohostsamedomain": false,
+      "pages": 20,
+      "verify": true,
+      "maxcohost": 100,
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "pages": "Number of max bing results to request from API.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+      "api_key": "Bing API Key for shared IP search."
+    },
+    "uri": "agent://spiderfoot/sfp_bingsharedip"
+  },
+  {
+    "name": "Binary String Extractor",
+    "cats": [
+      "Footprint"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      "errorprone"
+    ],
+    "descr": "Attempt to identify strings in binary content.",
+    "provides": [
+      "RAW_FILE_META_DATA"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL"
+    ],
+    "opts": {
+      "minwordsize": 5,
+      "maxwords": 100,
+      "maxfilesize": 1000000,
+      "usedict": true,
+      "fileexts": [
+        "png",
+        "gif",
+        "jpg",
+        "jpeg",
+        "tiff",
+        "tif",
+        "ico",
+        "flv",
+        "mp4",
+        "mp3",
+        "avi",
+        "mpg",
+        "mpeg",
+        "dat",
+        "mov",
+        "swf",
+        "exe",
+        "bin"
+      ],
+      "filterchars": "#}{|%^&*()=+,;[]~"
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "minwordsize": "Upon finding a string in a binary, ensure it is at least this length. Helps weed out false positives.",
+      "usedict": "Use the dictionary to further reduce false positives - any string found must contain a word from the dictionary (can be very slow, especially for larger files).",
+      "fileexts": "File types to fetch and analyse.",
+      "maxfilesize": "Maximum file size in bytes to download for analysis.",
+      "maxwords": "Stop reporting strings from a single binary after this many are found.",
+      "filterchars": "Ignore strings with these characters, as they may just be garbage ASCII."
+    },
+    "uri": "agent://spiderfoot/sfp_binstring"
+  },
+  {
+    "name": "Bitcoin Finder",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify bitcoin addresses in scraped webpages.",
+    "provides": [
+      "BITCOIN_ADDRESS"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_bitcoin"
+  },
+  {
+    "name": "Blockchain",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Public Registries",
+    "labels": [
+      ""
+    ],
+    "descr": "Queries blockchain.info to find the balance of identified bitcoin wallet addresses.",
+    "provides": [
+      "BITCOIN_BALANCE"
+    ],
+    "consumes": [
+      "BITCOIN_ADDRESS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_blockchain"
+  },
+  {
+    "name": "blocklist.de",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a netblock or IP is malicious according to blocklist.de.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_blocklistde": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_blocklistde"
+  },
+  {
+    "name": "BotScout",
+    "cats": [
+      "Passive",
+      "Investigate"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Searches botscout.com's database of spam-bot IPs and e-mail addresses.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_EMAILADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Botscout.com API key. Without this you will be limited to 50 look-ups per day."
+    },
+    "uri": "agent://spiderfoot/sfp_botscout"
+  },
+  {
+    "name": "botvrij.eu",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a domain is malicious according to botvrij.eu.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_botvrij": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_botvrij"
+  },
+  {
+    "name": "BuiltWith",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Query BuiltWith.com's Domain API for information about your target's web technology stack, e-mail addresses and more.",
+    "provides": [
+      "INTERNET_NAME",
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "RAW_RIR_DATA",
+      "WEBSERVER_TECHNOLOGY",
+      "PHONE_NUMBER",
+      "DOMAIN_NAME",
+      "CO_HOSTED_SITE",
+      "IP_ADDRESS",
+      "WEB_ANALYTICS_ID"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "maxage": 30
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Builtwith.com Domain API key.",
+      "maxage": "The maximum age of the data returned, in days, in order to be considered valid."
+    },
+    "uri": "agent://spiderfoot/sfp_builtwith"
+  },
+  {
+    "name": "CallerName",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Real World",
+    "labels": [
+      ""
+    ],
+    "descr": "Lookup US phone number location and reputation information.",
+    "provides": [
+      "GEOINFO",
+      "MALICIOUS_PHONE_NUMBER"
+    ],
+    "consumes": [
+      "PHONE_NUMBER"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_callername"
+  },
+  {
+    "name": "Censys",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from Censys.io",
+    "provides": [
+      "BGP_AS_MEMBER",
+      "TCP_PORT_OPEN",
+      "OPERATING_SYSTEM",
+      "WEBSERVER_HTTPHEADERS",
+      "NETBLOCK_MEMBER",
+      "GEOINFO",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "INTERNET_NAME",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "censys_api_key_uid": "",
+      "censys_api_key_secret": "",
+      "delay": 3,
+      "age_limit_days": 90
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "censys_api_key_uid": "Censys.io API UID.",
+      "censys_api_key_secret": "Censys.io API Secret.",
+      "delay": "Delay between requests, in seconds.",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited."
+    },
+    "uri": "agent://spiderfoot/sfp_censys"
+  },
+  {
+    "name": "CINS Army List",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a netblock or IP is malicious according to cinsscore.com's Army List.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_cinsscore": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_cinsscore"
+  },
+  {
+    "name": "CIRCL.LU",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from CIRCL.LU's Passive DNS and Passive SSL databases.",
+    "provides": [
+      "IP_ADDRESS",
+      "SSL_CERTIFICATE_ISSUED",
+      "CO_HOSTED_SITE"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "NETBLOCK_OWNER",
+      "IP_ADDRESS",
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key_login": "",
+      "api_key_password": "",
+      "age_limit_days": 0,
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key_login": "CIRCL.LU login.",
+      "api_key_password": "CIRCL.LU password.",
+      "age_limit_days": "Ignore any Passive DNS records older than this many days. 0 = unlimited.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_circllu"
+  },
+  {
+    "name": "Leak-Lookup",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Searches Leak-Lookup.com's database of breaches.",
+    "provides": [
+      "EMAILADDR_COMPROMISED"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": "",
+      "timeout": 60
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Leak-Lookup API key. Without this you're limited to the public API.",
+      "timeout": "Custom timeout due to heavy traffic at times."
+    },
+    "uri": "agent://spiderfoot/sfp_citadel"
+  },
+  {
+    "name": "Cleanbrowsing.org",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by Cleanbrowsing.org DNS",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_cleanbrowsing"
+  },
+  {
+    "name": "CleanTalk Spam List",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP is on CleanTalk.org's spam IP list.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_cleantalk": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_cleantalk"
+  },
+  {
+    "name": "Clearbit",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Check for names, addresses, domains and more based on lookups of e-mail addresses on clearbit.com.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "PHONE_NUMBER",
+      "PHYSICAL_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "EMAILADDR",
+      "EMAILADDR_GENERIC"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Clearbit.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_clearbit"
+  },
+  {
+    "name": "CloudFlare Malware DNS",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by CloudFlare Malware-blocking DNS",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_cloudflaredns"
+  },
+  {
+    "name": "CoinBlocker Lists",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain or IP appears on CoinBlocker lists.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "coinip": true,
+      "coindom": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "coinip": "Enable CoinBlocker IP check?",
+      "coindom": "Enable CoinBlocker Domains check?",
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_coinblocker"
+  },
+  {
+    "name": "CommonCrawl",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Searches for URLs found through CommonCrawl.org.",
+    "provides": [
+      "LINKED_URL_INTERNAL"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "indexes": 6
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "indexes": "Number of most recent indexes to attempt, because results tend to be occasionally patchy."
+    },
+    "uri": "agent://spiderfoot/sfp_commoncrawl"
+  },
+  {
+    "name": "Comodo",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by Comodo DNS",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_comodo"
+  },
+  {
+    "name": "Company Name Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify company names in any obtained data.",
+    "provides": [
+      "COMPANY_NAME",
+      "AFFILIATE_COMPANY_NAME"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "SSL_CERTIFICATE_ISSUED",
+      "DOMAIN_WHOIS",
+      "NETBLOCK_WHOIS",
+      "AFFILIATE_DOMAIN_WHOIS",
+      "AFFILIATE_WEB_CONTENT"
+    ],
+    "opts": {
+      "filterjscss": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "filterjscss": "Filter out company names that originated from CSS/JS content. Enabling this avoids detection of popular Javascript and web framework author company names."
+    },
+    "uri": "agent://spiderfoot/sfp_company"
+  },
+  {
+    "name": "Cookie Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Extract Cookies from HTTP headers.",
+    "provides": [
+      "TARGET_WEB_COOKIE"
+    ],
+    "consumes": [
+      "WEBSERVER_HTTPHEADERS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_cookie"
+  },
+  {
+    "name": "Country Name Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify country names in any obtained data.",
+    "provides": [
+      "COUNTRY_NAME"
+    ],
+    "consumes": [
+      "IBAN_NUMBER",
+      "PHONE_NUMBER",
+      "AFFILIATE_DOMAIN_NAME",
+      "CO_HOSTED_SITE_DOMAIN",
+      "DOMAIN_NAME",
+      "SIMILARDOMAIN",
+      "AFFILIATE_DOMAIN_WHOIS",
+      "CO_HOSTED_SITE_DOMAIN_WHOIS",
+      "DOMAIN_WHOIS",
+      "GEOINFO",
+      "PHYSICAL_ADDRESS"
+    ],
+    "opts": {
+      "cohosted": true,
+      "affiliate": true,
+      "noncountrytld": true,
+      "noncountrytlddefault": "United States",
+      "similardomain": false
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "cohosted": "Obtain country name from co-hosted sites",
+      "affiliate": "Obtain country name from affiliate sites",
+      "noncountrytld": "Parse TLDs not associated with any country as default country domains",
+      "noncountrytlddefault": "Default country name for TLDs not associated with any country(.com, .net, .org, .gov, .mil)",
+      "similardomain": "Obtain country name from similar domains"
+    },
+    "uri": "agent://spiderfoot/sfp_countryname"
+  },
+  {
+    "name": "Credit Card Number Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify Credit Card Numbers in any data",
+    "provides": [
+      "CREDIT_CARD_NUMBER"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "DARKNET_MENTION_CONTENT",
+      "LEAKSITE_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_creditcard"
+  },
+  {
+    "name": "Cross-Referencer",
+    "cats": [
+      "Footprint"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify whether other domains are associated ('Affiliates') of the target.",
+    "provides": [
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_WEB_CONTENT"
+    ],
+    "consumes": [
+      "LINKED_URL_EXTERNAL",
+      "SIMILARDOMAIN",
+      "CO_HOSTED_SITE",
+      "DARKNET_MENTION_URL"
+    ],
+    "opts": {
+      "checkbase": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkbase": "Check the base URL of the potential affiliate if no direct affiliation found?"
+    },
+    "uri": "agent://spiderfoot/sfp_crossref"
+  },
+  {
+    "name": "Certificate Transparency",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather hostnames from historical certificates in crt.sh.",
+    "provides": [
+      "SSL_CERTIFICATE_RAW",
+      "RAW_RIR_DATA",
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "DOMAIN_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME_UNRESOLVED",
+      "AFFILIATE_DOMAIN_NAME"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "verify": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "verify": "Verify certificate subject alternative names resolve."
+    },
+    "uri": "agent://spiderfoot/sfp_crt"
+  },
+  {
+    "name": "Custom Threat Feed",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain, netblock, ASN or IP is malicious according to your custom feed.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_customfeed": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "url": "",
+      "cacheperiod": 0
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "url": "The URL where the feed can be found. Exact matching is performed so the format must be a single line per host, ASN, domain, IP or netblock.",
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Maximum age of data in hours before re-downloading. 0 to always download."
+    },
+    "uri": "agent://spiderfoot/sfp_customfeed"
+  },
+  {
+    "name": "cybercrime-tracker.net",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain or IP is malicious according to cybercrime-tracker.net.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_cybercrime": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_cybercrimetracker"
+  },
+  {
+    "name": "Darksearch",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Search the Darksearch.io Tor search engine for mentions of the target domain.",
+    "provides": [
+      "DARKNET_MENTION_URL",
+      "DARKNET_MENTION_CONTENT",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "HUMAN_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "fetchlinks": true,
+      "max_pages": 20,
+      "fullnames": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "fetchlinks": "Fetch the darknet pages (via TOR, if enabled) to verify they mention your target.",
+      "max_pages": "Maximum number of pages of results to fetch.",
+      "fullnames": "Search for human names?"
+    },
+    "uri": "agent://spiderfoot/sfp_darksearch"
+  },
+  {
+    "name": "Digital Ocean Space Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Search for potential Digital Ocean Spaces associated with the target and attempt to list their contents.",
+    "provides": [
+      "CLOUD_STORAGE_BUCKET",
+      "CLOUD_STORAGE_BUCKET_OPEN"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {
+      "endpoints": "nyc3.digitaloceanspaces.com,sgp1.digitaloceanspaces.com,ams3.digitaloceanspaces.com",
+      "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+      "_maxthreads": 20
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "endpoints": "Different Digital Ocean locations to check where spaces may exist.",
+      "suffixes": "List of suffixes to append to domains tried as space names"
+    },
+    "uri": "agent://spiderfoot/sfp_digitaloceanspace"
+  },
+  {
+    "name": "DNS Brute-forcer",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Attempts to identify hostnames through brute-forcing common names and iterations.",
+    "provides": [
+      "INTERNET_NAME"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "skipcommonwildcard": true,
+      "domainonly": true,
+      "commons": true,
+      "top10000": false,
+      "numbersuffix": true,
+      "numbersuffixlimit": true,
+      "_maxthreads": 100
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "skipcommonwildcard": "If wildcard DNS is detected, don't bother brute-forcing.",
+      "domainonly": "Only attempt to brute-force names on domain names, not hostnames (some hostnames are also sub-domains).",
+      "commons": "Try a list of about 750 common hostnames/sub-domains.",
+      "top10000": "Try a further 10,000 common hostnames/sub-domains. Will make the scan much slower.",
+      "numbersuffix": "For any host found, try appending 1, 01, 001, -1, -01, -001, 2, 02, etc. (up to 10)",
+      "numbersuffixlimit": "Limit using the number suffixes for hosts that have already been resolved? If disabled this will significantly extend the duration of scans."
+    },
+    "uri": "agent://spiderfoot/sfp_dnsbrute"
+  },
+  {
+    "name": "DNS Common SRV",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Attempts to identify hostnames through common SRV.",
+    "provides": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_dnscommonsrv"
+  },
+  {
+    "name": "DNSGrep",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain Passive DNS information from Rapid7 Sonar Project using DNSGrep API.",
+    "provides": [
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "timeout": 30,
+      "dns_resolve": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "timeout": "Query timeout, in seconds.",
+      "dns_resolve": "DNS resolve each identified domain."
+    },
+    "uri": "agent://spiderfoot/sfp_dnsgrep"
+  },
+  {
+    "name": "DNS Look-aside",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Attempt to reverse-resolve the IP addresses next to your target to see if they are related.",
+    "provides": [
+      "AFFILIATE_IPADDR",
+      "IP_ADDRESS"
+    ],
+    "consumes": [
+      "IP_ADDRESS"
+    ],
+    "opts": {
+      "lookasidecount": 10,
+      "validatereverse": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "validatereverse": "Validate that reverse-resolved hostnames still resolve back to that IP before considering them as aliases of your target.",
+      "lookasidecount": "If look-aside is enabled, the number of IPs on each 'side' of the IP to look up"
+    },
+    "uri": "agent://spiderfoot/sfp_dnsneighbor"
+  },
+  {
+    "name": "DNS Raw Records",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Retrieves raw DNS records such as MX, TXT and others.",
+    "provides": [
+      "PROVIDER_MAIL",
+      "PROVIDER_DNS",
+      "RAW_DNS_RECORDS",
+      "DNS_TEXT",
+      "DNS_SPF",
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME_UNRESOLVED"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "DOMAIN_NAME",
+      "DOMAIN_NAME_PARENT"
+    ],
+    "opts": {
+      "verify": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "verify": "Verify identified hostnames resolve."
+    },
+    "uri": "agent://spiderfoot/sfp_dnsraw"
+  },
+  {
+    "name": "DNS Resolver",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Resolves Hosts and IP Addresses identified, also extracted from raw content.",
+    "provides": [
+      "IP_ADDRESS",
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "DOMAIN_NAME",
+      "IPV6_ADDRESS",
+      "DOMAIN_NAME_PARENT",
+      "CO_HOSTED_SITE_DOMAIN",
+      "AFFILIATE_DOMAIN_NAME",
+      "INTERNET_NAME_UNRESOLVED"
+    ],
+    "consumes": [
+      "CO_HOSTED_SITE",
+      "AFFILIATE_INTERNET_NAME",
+      "NETBLOCK_OWNER",
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "TARGET_WEB_CONTENT",
+      "BASE64_DATA",
+      "AFFILIATE_DOMAIN_WHOIS",
+      "CO_HOSTED_SITE_DOMAIN_WHOIS",
+      "DOMAN_WHOIS",
+      "NETBLOCK_WHOIS",
+      "LEAKSITE_CONTENT",
+      "RAW_DNS_RECORDS",
+      "RAW_FILE_META_DATA",
+      "RAW_RIR_DATA",
+      "SEARCH_ENGINE_WEB_CONTENT",
+      "SIMILARDOMAIN_WHOIS",
+      "SSL_CERTIFICATE_RAW",
+      "SSL_CERTIFICATE_ISSUED",
+      "TCP_PORT_OPEN_BANNER",
+      "WEBSERVER_BANNER",
+      "WEBSERVER_HTTPHEADERS"
+    ],
+    "opts": {
+      "validatereverse": true,
+      "skipcommononwildcard": true,
+      "netblocklookup": true,
+      "maxnetblock": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "skipcommononwildcard": "If wildcard DNS is detected, only attempt to look up the first common sub-domain from the common sub-domain list.",
+      "validatereverse": "Validate that reverse-resolved hostnames still resolve back to that IP before considering them as aliases of your target.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
+      "maxnetblock": "Maximum owned netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_dnsresolve"
+  },
+  {
+    "name": "DNS Zone Transfer",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Attempts to perform a full DNS zone transfer.",
+    "provides": [
+      "RAW_DNS_RECORDS",
+      "INTERNET_NAME"
+    ],
+    "consumes": [
+      "PROVIDER_DNS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_dnszonexfer"
+  },
+  {
+    "name": "DroneBL",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Query the DroneBL  database for open relays, open proxies, vulnerable servers, etc.",
+    "provides": [
+      "BLACKLISTED_IPADDR",
+      "BLACKLISTED_AFFILIATE_IPADDR",
+      "BLACKLISTED_SUBNET",
+      "BLACKLISTED_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_dronebl"
+  },
+  {
+    "name": "DuckDuckGo",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Query DuckDuckGo's API for descriptive information about your target.",
+    "provides": [
+      "DESCRIPTION_CATEGORY",
+      "DESCRIPTION_ABSTRACT",
+      "AFFILIATE_DESCRIPTION_CATEGORY",
+      "AFFILIATE_DESCRIPTION_ABSTRACT"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "DOMAIN_NAME_PARENT",
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME"
+    ],
+    "opts": {
+      "affiliatedomains": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "affiliatedomains": "For affiliates, look up the domain name, not the hostname. This will usually return more meaningful information about the affiliate."
+    },
+    "uri": "agent://spiderfoot/sfp_duckduckgo"
+  },
+  {
+    "name": "E-Mail Address Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify e-mail addresses in any obtained data.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "AFFILIATE_EMAILADDR"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "BASE64_DATA",
+      "AFFILIATE_DOMAIN_WHOIS",
+      "CO_HOSTED_SITE_DOMAIN_WHOIS",
+      "DOMAN_WHOIS",
+      "NETBLOCK_WHOIS",
+      "LEAKSITE_CONTENT",
+      "RAW_DNS_RECORDS",
+      "RAW_FILE_META_DATA",
+      "RAW_RIR_DATA",
+      "SEARCH_ENGINE_WEB_CONTENT",
+      "SIMILARDOMAIN_WHOIS",
+      "SSL_CERTIFICATE_RAW",
+      "SSL_CERTIFICATE_ISSUED",
+      "TCP_PORT_OPEN_BANNER",
+      "WEBSERVER_BANNER",
+      "WEBSERVER_HTTPHEADERS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_email"
+  },
+  {
+    "name": "EmailCrawlr",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search EmailCrawlr for email addresses and phone numbers associated with a domain.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "PHONE_NUMBER",
+      "GEOINFO",
+      "HUMAN_NAME"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 1
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "EmailCrawlr API key.",
+      "delay": "Delay between requests, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_emailcrawlr"
+  },
+  {
+    "name": "EmailFormat",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Look up e-mail addresses on email-format.com.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_emailformat"
+  },
+  {
+    "name": "EmailRep",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Search EmailRep.io for email address reputation.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "EMAILADDR_COMPROMISED",
+      "MALICIOUS_EMAILADDR"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_emailrep"
+  },
+  {
+    "name": "Emerging Threats",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a netblock or IP is malicious according to emergingthreats.net.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_emergingthreats": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_emergingthreats"
+  },
+  {
+    "name": "Error String Extractor",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify common error messages in content like SQL errors, etc.",
+    "provides": [
+      "ERROR_MESSAGE"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_errors"
+  },
+  {
+    "name": "Ethereum Address Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify ethereum addresses in scraped webpages.",
+    "provides": [
+      "ETHEREUM_ADDRESS"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_ethereum"
+  },
+  {
+    "name": "File Metadata Extractor",
+    "cats": [
+      "Footprint"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Extracts meta data from documents and images.",
+    "provides": [
+      "RAW_FILE_META_DATA",
+      "SOFTWARE_USED"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL",
+      "INTERESTING_FILE"
+    ],
+    "opts": {
+      "fileexts": [
+        "docx",
+        "pptx",
+        "pdf",
+        "jpg",
+        "jpeg",
+        "tiff",
+        "tif"
+      ],
+      "timeout": 300
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "fileexts": "File extensions of files you want to analyze the meta data of (only PDF, DOCX, XLSX and PPTX are supported.)",
+      "timeout": "Download timeout for files, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_filemeta"
+  },
+  {
+    "name": "Flickr",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Search Flickr for domains, URLs and emails related to the specified domain.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "INTERNET_NAME",
+      "DOMAIN_NAME",
+      "LINKED_URL_INTERNAL"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "pause": 1,
+      "per_page": 100,
+      "maxpages": 20,
+      "dns_resolve": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "pause": "Number of seconds to pause between fetches.",
+      "per_page": "Maximum number of results per page.",
+      "maxpages": "Maximum number of pages of results to fetch.",
+      "dns_resolve": "DNS resolve each identified domain."
+    },
+    "uri": "agent://spiderfoot/sfp_flickr"
+  },
+  {
+    "name": "Fortiguard.com",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP is malicious according to Fortiguard.com.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "_fortiguard": true,
+      "checkaffiliates": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?"
+    },
+    "uri": "agent://spiderfoot/sfp_fortinet"
+  },
+  {
+    "name": "Fraudguard",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain threat information from Fraudguard.io",
+    "provides": [
+      "GEOINFO",
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "fraudguard_api_key_account": "",
+      "fraudguard_api_key_password": "",
+      "age_limit_days": 90,
+      "netblocklookup": true,
+      "maxnetblock": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "fraudguard_api_key_account": "Fraudguard.io API username.",
+      "fraudguard_api_key_password": "Fraudguard.io API password.",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_fraudguard"
+  },
+  {
+    "name": "Fringe Project",
+    "cats": [
+      "Investigate",
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain network information from Fringe Project API.",
+    "provides": [
+      "INTERNET_NAME",
+      "LINKED_URL_INTERNAL",
+      "DOMAIN_NAME",
+      "TCP_PORT_OPEN",
+      "SOFTWARE_USED",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_fringeproject"
+  },
+  {
+    "name": "F-Secure Riddler.io",
+    "cats": [
+      "Investigate",
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain network information from F-Secure Riddler.io API.",
+    "provides": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "AFFILIATE_INTERNET_NAME_UNRESOLVED",
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME",
+      "IP_ADDRESS",
+      "PHYSICAL_COORDINATES",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "IP_ADDRESS"
+    ],
+    "opts": {
+      "verify": true,
+      "username": "",
+      "password": ""
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "verify": "Verify host names resolve",
+      "username": "F-Secure Riddler.io username",
+      "password": "F-Secure Riddler.io password"
+    },
+    "uri": "agent://spiderfoot/sfp_fsecure_riddler"
+  },
+  {
+    "name": "FullContact",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Gather domain and e-mail information from fullcontact.com.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "RAW_RIR_DATA",
+      "PHONE_NUMBER",
+      "GEOINFO",
+      "PHYSICAL_ADDRESS"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": "",
+      "max_age_days": "365"
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Fullcontact.com API key.",
+      "max_age_days": "Maximum number of age in days for a record before it's considered invalid and not reported."
+    },
+    "uri": "agent://spiderfoot/sfp_fullcontact"
+  },
+  {
+    "name": "Github",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify associated public code repositories on Github.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "GEOINFO",
+      "PUBLIC_CODE_REPO"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "USERNAME",
+      "SOCIAL_MEDIA"
+    ],
+    "opts": {
+      "namesonly": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "namesonly": "Match repositories by name only, not by their descriptions. Helps reduce false positives."
+    },
+    "uri": "agent://spiderfoot/sfp_github"
+  },
+  {
+    "name": "Google Maps",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Real World",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Identifies potential physical addresses and latitude/longitude coordinates.",
+    "provides": [
+      "PHYSICAL_ADDRESS",
+      "PHYSICAL_COORDINATES",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "PHYSICAL_ADDRESS"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Google Geocoding API Key."
+    },
+    "uri": "agent://spiderfoot/sfp_googlemaps"
+  },
+  {
+    "name": "Google Object Storage Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Search for potential Google Object Storage buckets associated with the target and attempt to list their contents.",
+    "provides": [
+      "CLOUD_STORAGE_BUCKET",
+      "CLOUD_STORAGE_BUCKET_OPEN"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {
+      "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+      "_maxthreads": 20
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "suffixes": "List of suffixes to append to domains tried as bucket names"
+    },
+    "uri": "agent://spiderfoot/sfp_googleobjectstorage"
+  },
+  {
+    "name": "Google",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from the Google Custom Search API to identify sub-domains and links.",
+    "provides": [
+      "LINKED_URL_INTERNAL",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "cse_id": "013611106330597893267:tfgl3wxdtbp"
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Google API Key for Google search.",
+      "cse_id": "Google Custom Search Engine ID."
+    },
+    "uri": "agent://spiderfoot/sfp_googlesearch"
+  },
+  {
+    "name": "Gravatar",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Retrieve user information from Gravatar API.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "HUMAN_NAME",
+      "USERNAME",
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "PHONE_NUMBER",
+      "GEOINFO",
+      "ACCOUNT_EXTERNAL_OWNED",
+      "SOCIAL_MEDIA"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_gravatar"
+  },
+  {
+    "name": "Greensnow",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a netblock or IP is malicious according to greensnow.co.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_greensnow": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_greensnow"
+  },
+  {
+    "name": "grep.app",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Search grep.app API for links and emails related to the specified domain.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "DOMAIN_NAME",
+      "INTERNET_NAME",
+      "RAW_RIR_DATA",
+      "INTERNET_NAME_UNRESOLVED",
+      "LINKED_URL_INTERNAL"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "max_pages": 20,
+      "dns_resolve": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "max_pages": "Maximum number of pages of results to fetch.",
+      "dns_resolve": "DNS resolve each identified domain."
+    },
+    "uri": "agent://spiderfoot/sfp_grep_app"
+  },
+  {
+    "name": "Greynoise",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from Greynoise.io's Enterprise API.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_ASN",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_NETBLOCK",
+      "COMPANY_NAME",
+      "GEOINFO",
+      "BGP_AS_MEMBER",
+      "OPERATING_SYSTEM",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_MEMBER",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "api_key": "",
+      "age_limit_days": 30,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Greynoise API Key.",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
+      "netblocklookup": "Look up netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_greynoise"
+  },
+  {
+    "name": "HackerOne (Unofficial)",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Check external vulnerability scanning/reporting service h1.nobbd.de to see if the target is listed.",
+    "provides": [
+      "VULNERABILITY"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_h1nobbdde"
+  },
+  {
+    "name": "HackerTarget",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Search HackerTarget.com for hosts sharing the same IP.",
+    "provides": [
+      "CO_HOSTED_SITE",
+      "UDP_PORT_OPEN",
+      "TCP_PORT_OPEN",
+      "IP_ADDRESS",
+      "WEBSERVER_HTTPHEADERS",
+      "RAW_DNS_RECORDS",
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME_UNRESOLVED"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "DOMAIN_NAME_PARENT"
+    ],
+    "opts": {
+      "cohostsamedomain": false,
+      "verify": true,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "maxcohost": 100,
+      "http_headers": false,
+      "tcp_portscan": false,
+      "udp_portscan": false
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+      "http_headers": "Retrieve IP HTTP headers using HackerTarget.com",
+      "tcp_portscan": "Scan IP for commonly open TCP ports using HackerTarget.com TCP port scan.",
+      "udp_portscan": "Scan IP for commonly open UDP ports using HackerTarget.com UDP port scan."
+    },
+    "uri": "agent://spiderfoot/sfp_hackertarget"
+  },
+  {
+    "name": "Hash Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify MD5 and SHA hashes in web content, files and more.",
+    "provides": [
+      "HASH"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "BASE64_DATA",
+      "LEAKSITE_CONTENT",
+      "RAW_DNS_RECORDS",
+      "RAW_FILE_META_DATA"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_hashes"
+  },
+  {
+    "name": "HaveIBeenPwned",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Check HaveIBeenPwned.com for hacked e-mail addresses identified in breaches.",
+    "provides": [
+      "EMAILADDR_COMPROMISED"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "HaveIBeenPwned.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_haveibeenpwned"
+  },
+  {
+    "name": "Honeypot Checker",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Query the projecthoneypot.org database for entries.",
+    "provides": [
+      "BLACKLISTED_IPADDR",
+      "BLACKLISTED_AFFILIATE_IPADDR",
+      "BLACKLISTED_SUBNET",
+      "BLACKLISTED_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "api_key": "",
+      "searchengine": false,
+      "threatscore": 0,
+      "timelimit": 30,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Projecthoneypot.org API key.",
+      "searchengine": "Include entries considered search engines?",
+      "threatscore": "Threat score minimum, 0 being everything and 255 being only the most serious.",
+      "timelimit": "Maximum days old an entry can be. 255 is the maximum, 0 means you'll get nothing.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_honeypot"
+  },
+  {
+    "name": "Hosting Provider Identifier",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Find out if any IP addresses identified fall within known 3rd party hosting ranges, e.g. Amazon, Azure, etc.",
+    "provides": [
+      "PROVIDER_HOSTING"
+    ],
+    "consumes": [
+      "IP_ADDRESS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_hosting"
+  },
+  {
+    "name": "Hunter.io",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Check for e-mail addresses and names on hunter.io.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Hunter.io API key."
+    },
+    "uri": "agent://spiderfoot/sfp_hunter"
+  },
+  {
+    "name": "IBAN Number Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify IBAN Numbers in any data",
+    "provides": [
+      "IBAN_NUMBER"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "DARKNET_MENTION_CONTENT",
+      "LEAKSITE_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_iban"
+  },
+  {
+    "name": "Iknowwhatyoudownload.com",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Secondary Networks",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Check iknowwhatyoudownload.com for IP addresses that have been using BitTorrent.",
+    "provides": [
+      "MALICIOUS_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS"
+    ],
+    "opts": {
+      "daysback": 30,
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "daysback": "How far back (in days) to look for activity.",
+      "api_key": "Iknowwhatyoudownload.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_iknowwhatyoudownload"
+  },
+  {
+    "name": "Instagram",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather information from Instagram profiles.",
+    "provides": [
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "SOCIAL_MEDIA"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_instagram"
+  },
+  {
+    "name": "IntelligenceX",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from IntelligenceX about identified IP addresses, domains, e-mail addresses and phone numbers.",
+    "provides": [
+      "LEAKSITE_URL",
+      "DARKNET_MENTION_URL",
+      "INTERNET_NAME",
+      "DOMAIN_NAME",
+      "EMAILADDR",
+      "EMAILADDR_GENERIC"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "INTERNET_NAME",
+      "EMAILADDR",
+      "CO_HOSTED_SITE",
+      "PHONE_NUMBER",
+      "BITCOIN_ADDRESS"
+    ],
+    "opts": {
+      "api_key": "9df61df0-84f7-4dc7-b34c-8ccfb8646ace",
+      "base_url": "public.intelx.io",
+      "checkcohosts": false,
+      "checkaffiliates": false,
+      "netblocklookup": false,
+      "maxnetblock": 24,
+      "subnetlookup": false,
+      "maxsubnet": 24,
+      "maxage": 90
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "IntelligenceX API key.",
+      "base_url": "API URL, as provided in your IntelligenceX account settings.",
+      "checkcohosts": "Check co-hosted sites?",
+      "checkaffiliates": "Check affiliates?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxage": "Maximum age (in days) of results to be considered valid."
+    },
+    "uri": "agent://spiderfoot/sfp_intelx"
+  },
+  {
+    "name": "Interesting File Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Identifies potential files of interest, e.g. office documents, zip files.",
+    "provides": [
+      "INTERESTING_FILE"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL"
+    ],
+    "opts": {
+      "fileexts": [
+        "doc",
+        "docx",
+        "ppt",
+        "pptx",
+        "pdf",
+        "xls",
+        "xlsx",
+        "zip"
+      ]
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "fileexts": "File extensions of files you consider interesting."
+    },
+    "uri": "agent://spiderfoot/sfp_intfiles"
+  },
+  {
+    "name": "IPInfo.io",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Real World",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Identifies the physical location of IP addresses identified using ipinfo.io.",
+    "provides": [
+      "GEOINFO"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Ipinfo.io access token."
+    },
+    "uri": "agent://spiderfoot/sfp_ipinfo"
+  },
+  {
+    "name": "ipstack",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Real World",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Identifies the physical location of IP addresses identified using ipstack.com.",
+    "provides": [
+      "GEOINFO"
+    ],
+    "consumes": [
+      "IP_ADDRESS"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Ipstack.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_ipstack"
+  },
+  {
+    "name": "Internet Storm Center",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP is malicious according to SANS ISC.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "_isc": true,
+      "checkaffiliates": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?"
+    },
+    "uri": "agent://spiderfoot/sfp_isc"
+  },
+  {
+    "name": "JsonWHOIS.com",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search JsonWHOIS.com for WHOIS records associated with a domain.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "DOMAIN_REGISTRAR",
+      "DOMAIN_WHOIS",
+      "PROVIDER_DNS",
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "PHONE_NUMBER",
+      "PHYSICAL_ADDRESS",
+      "HUMAN_NAME",
+      "AFFILIATE_DOMAIN_UNREGISTERED"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 1
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "JsonWHOIS.com API key.",
+      "delay": "Delay between requests, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_jsonwhoiscom"
+  },
+  {
+    "name": "Junk File Finder",
+    "cats": [
+      "Footprint"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      "slow",
+      "errorprone",
+      "invasive"
+    ],
+    "descr": "Looks for old/temporary and other similar files.",
+    "provides": [
+      "JUNK_FILE"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL"
+    ],
+    "opts": {
+      "fileexts": [
+        "tmp",
+        "bak",
+        "old"
+      ],
+      "urlextstry": [
+        "asp",
+        "php",
+        "jsp"
+      ],
+      "files": [
+        "old",
+        "passwd",
+        ".htaccess",
+        ".htpasswd",
+        "Thumbs.db",
+        "backup"
+      ],
+      "dirs": [
+        "zip",
+        "tar.gz",
+        "tgz",
+        "tar"
+      ],
+      "skipfake": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "fileexts": "File extensions to try.",
+      "urlextstry": "Try those extensions against URLs with these extensions.",
+      "files": "Try to fetch each of these files from the directory of the URL.",
+      "dirs": "Try to fetch the containing folder with these extensions.",
+      "skipfake": "Try to fetch an obviously fake page and if no 404 is returned, stop trying that particular host for junk files. Good for avoiding false positives in cases where servers return content for pages that don't exist."
+    },
+    "uri": "agent://spiderfoot/sfp_junkfiles"
+  },
+  {
+    "name": "Keybase",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Public Registries",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain additional information about target username",
+    "provides": [
+      "RAW_RIR_DATA",
+      "SOCIAL_MEDIA",
+      "USERNAME",
+      "HUMAN_NAME",
+      "GEOINFO",
+      "BITCOIN_ADDRESS",
+      "PGP_KEY"
+    ],
+    "consumes": [
+      "USERNAME",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_keybase"
+  },
+  {
+    "name": "LeakIX",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Search LeakIX for host data leaks, open ports, software and geoip.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "GEOINFO",
+      "TCP_PORT_OPEN",
+      "OPERATING_SYSTEM",
+      "SOFTWARE_USED",
+      "WEBSERVER_BANNER",
+      "LEAKSITE_CONTENT"
+    ],
+    "consumes": [
+      "IP_ADDRESS"
+    ],
+    "opts": {
+      "delay": 1
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "delay": "Delay between requests, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_leakix"
+  },
+  {
+    "name": "Maltiverse",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain information about any malicious activities involving IP addresses",
+    "provides": [
+      "IP_ADDRESS",
+      "MALICIOUS_IPADDR",
+      "RAW_RIR_DATA",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "checkaffiliates": true,
+      "subnetlookup": false,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "maxsubnet": 24,
+      "age_limit_days": 30
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Check affiliates?",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited."
+    },
+    "uri": "agent://spiderfoot/sfp_maltiverse"
+  },
+  {
+    "name": "malwaredomainlist.com",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain, IP or netblock is malicious according to malwaredomainlist.com.",
+    "provides": [
+      "MALICIOUS_ASN",
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "BGP_AS_OWNER",
+      "BGP_AS_MEMBER",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "malwaredomainlistdomain": true,
+      "malwaredomainlistip": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "malwaredomainlistdomain": "Enable malwaredomainlist.com domain check?",
+      "malwaredomainlistip": "Enable malwaredomainlist.com IP check?",
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_malwaredomainlist"
+  },
+  {
+    "name": "malwaredomains.com",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain is malicious according to malwaredomains.com.",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_malwaredomains": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_malwaredomains"
+  },
+  {
+    "name": "MalwarePatrol",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Searches malwarepatrol.net's database of malicious URLs/IPs.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Malwarepatrol.com 'receipt' ID, provided once signing up for their open-source feed. Without this you cannot obtain their feed."
+    },
+    "uri": "agent://spiderfoot/sfp_malwarepatrol"
+  },
+  {
+    "name": "MetaDefender",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search MetaDefender API for IP address and domain IP reputation.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "GEOINFO"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 6
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "MetaDefender API key.",
+      "delay": "Delay between requests, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_metadefender"
+  },
+  {
+    "name": "Mnemonic PassiveDNS",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain Passive DNS information from PassiveDNS.mnemonic.no.",
+    "provides": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "CO_HOSTED_SITE",
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "per_page": 500,
+      "max_pages": 2,
+      "timeout": 30,
+      "maxage": 180,
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "per_page": "Maximum number of results per page.",
+      "max_pages": "Maximum number of pages of results to fetch.",
+      "timeout": "Query timeout, in seconds.",
+      "maxage": "The maximum age of the data returned, in days, in order to be considered valid.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_mnemonic"
+  },
+  {
+    "name": "multiproxy.org Open Proxies",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Secondary Networks",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP is an open proxy according to multiproxy.org' open proxy list.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "_multiproxy": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_multiproxy"
+  },
+  {
+    "name": "MySpace",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather username and location from MySpace.com profiles.",
+    "provides": [
+      "SOCIAL_MEDIA",
+      "GEOINFO"
+    ],
+    "consumes": [
+      "EMAILADDR",
+      "SOCIAL_MEDIA"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_myspace"
+  },
+  {
+    "name": "Human Name Extractor",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      "errorprone"
+    ],
+    "descr": "Attempt to identify human names in fetched content.",
+    "provides": [
+      "HUMAN_NAME"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "EMAILADDR",
+      "DOMAIN_WHOIS",
+      "NETBLOCK_WHOIS",
+      "RAW_RIR_DATA",
+      "RAW_FILE_META_DATA"
+    ],
+    "opts": {
+      "algolimit": 75,
+      "emailtoname": true,
+      "filterjscss": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "algolimit": "A value between 0-100 to tune the sensitivity of the name finder. Less than 40 will give you a lot of junk, over 50 and you'll probably miss things but will have less false positives.",
+      "emailtoname": "Convert e-mail addresses in the form of firstname.surname@target to names?",
+      "filterjscss": "Filter out names that originated from CSS/JS content. Enabling this avoids detection of popular Javascript and web framework author names."
+    },
+    "uri": "agent://spiderfoot/sfp_names"
+  },
+  {
+    "name": "NetworksDB",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search NetworksDB.io API for IP address and domain information.",
+    "provides": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "CO_HOSTED_SITE",
+      "GEOINFO",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 1,
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "NetworksDB API key.",
+      "delay": "Delay between requests, in seconds.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_networksdb"
+  },
+  {
+    "name": "NeutrinoAPI",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search NeutrinoAPI for IP address info and check IP reputation.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "MALICIOUS_IPADDR",
+      "GEOINFO"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "PHONE_NUMBER"
+    ],
+    "opts": {
+      "user_id": "",
+      "api_key": "",
+      "timeout": 30
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "user_id": "NeutrinoAPI user ID.",
+      "api_key": "NeutrinoAPI API key.",
+      "timeout": "Query timeout, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_neutrinoapi"
+  },
+  {
+    "name": "Norton ConnectSafe",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by Norton ConnectSafe DNS",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_norton"
+  },
+  {
+    "name": "numverify",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Real World",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Lookup phone number location and carrier information from numverify.com.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "GEOINFO",
+      "PROVIDER_TELCO"
+    ],
+    "consumes": [
+      "PHONE_NUMBER"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "numverify API key."
+    },
+    "uri": "agent://spiderfoot/sfp_numverify"
+  },
+  {
+    "name": "Onion.link",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search Tor 'Onion City' search engine for mentions of the target domain.",
+    "provides": [
+      "DARKNET_MENTION_URL",
+      "DARKNET_MENTION_CONTENT",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "cse_id": "013611106330597893267:tfgl3wxdtbp",
+      "fetchlinks": true,
+      "fullnames": true
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Google API Key for Onion.link search.",
+      "cse_id": "Google Custom Search Engine ID.",
+      "fetchlinks": "Fetch the darknet pages (via TOR, if enabled) to verify they mention your target.",
+      "fullnames": "Search for human names?"
+    },
+    "uri": "agent://spiderfoot/sfp_onioncity"
+  },
+  {
+    "name": "Onionsearchengine.com",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Search Tor onionsearchengine.com for mentions of the target domain.",
+    "provides": [
+      "DARKNET_MENTION_URL",
+      "DARKNET_MENTION_CONTENT",
+      "SEARCH_ENGINE_WEB_CONTENT"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "HUMAN_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "timeout": 10,
+      "max_pages": 20,
+      "fetchlinks": true,
+      "blacklist": [
+        ".*://relate.*"
+      ],
+      "fullnames": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "timeout": "Query timeout, in seconds.",
+      "max_pages": "Maximum number of pages of results to fetch.",
+      "fetchlinks": "Fetch the darknet pages (via TOR, if enabled) to verify they mention your target.",
+      "blacklist": "Exclude results from sites matching these patterns.",
+      "fullnames": "Search for human names?"
+    },
+    "uri": "agent://spiderfoot/sfp_onionsearchengine"
+  },
+  {
+    "name": "Open Bug Bounty",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Check external vulnerability scanning/reporting service openbugbounty.org to see if the target is listed.",
+    "provides": [
+      "VULNERABILITY"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_openbugbounty"
+  },
+  {
+    "name": "OpenCorporates",
+    "cats": [
+      "Passive",
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Look up company information from OpenCorporates.",
+    "provides": [
+      "COMPANY_NAME",
+      "PHYSICAL_ADDRESS",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "COMPANY_NAME"
+    ],
+    "opts": {
+      "confidence": 100,
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "confidence": "Confidence that the search result objects are correct (numeric value between 0 and 100).",
+      "api_key": "OpenCorporates.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_opencorporates"
+  },
+  {
+    "name": "OpenDNS",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by OpenDNS DNS",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_opendns"
+  },
+  {
+    "name": "OpenPhish",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain is malicious according to OpenPhish.com.",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_openphish": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_openphish"
+  },
+  {
+    "name": "OpenStreetMap",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Real World",
+    "labels": [
+      ""
+    ],
+    "descr": "Retrieves latitude/longitude coordinates for physical addresses from OpenStreetMap API.",
+    "provides": [
+      "PHYSICAL_COORDINATES"
+    ],
+    "consumes": [
+      "PHYSICAL_ADDRESS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_openstreetmap"
+  },
+  {
+    "name": "Open Passive DNS Database",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain passive DNS information from pdns.daloo.de Open passive DNS database.",
+    "provides": [
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "IP_ADDRESS",
+      "IPV6_ADDRESS"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "timeout": 30,
+      "verify": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "timeout": "Query timeout, in seconds.",
+      "verify": "Verify identified domains still resolve to the associated specified IP address."
+    },
+    "uri": "agent://spiderfoot/sfp_open_passive_dns_database"
+  },
+  {
+    "name": "Page Information",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain information about web pages (do they take passwords, do they contain forms, etc.)",
+    "provides": [
+      "URL_STATIC",
+      "URL_JAVASCRIPT",
+      "URL_FORM",
+      "URL_PASSWORD",
+      "URL_UPLOAD",
+      "URL_JAVA_APPLET",
+      "URL_FLASH",
+      "PROVIDER_JAVASCRIPT"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_pageinfo"
+  },
+  {
+    "name": "PasteBin",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "PasteBin scraping (via Google) to identify related content.",
+    "provides": [
+      "LEAKSITE_CONTENT",
+      "LEAKSITE_URL"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": "",
+      "cse_id": "013611106330597893267:tfgl3wxdtbp"
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Google API Key for PasteBin search.",
+      "cse_id": "Google Custom Search Engine ID."
+    },
+    "uri": "agent://spiderfoot/sfp_pastebin"
+  },
+  {
+    "name": "PGP Key Servers",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Public Registries",
+    "labels": [
+      ""
+    ],
+    "descr": "Look up e-mail addresses in PGP public key servers.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC",
+      "AFFILIATE_EMAILADDR",
+      "PGP_KEY"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "EMAILADDR",
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "keyserver_search1": "https://pgp.key-server.io/pks/lookup?fingerprint=on&op=vindex&search=",
+      "keyserver_fetch1": "https://pgp.key-server.io/pks/lookup?op=get&search=",
+      "keyserver_search2": "http://the.earth.li:11371/pks/lookup?op=index&search=",
+      "keyserver_fetch2": "http://the.earth.li:11371/pks/lookup?op=get&search="
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "keyserver_search1": "PGP public key server URL to find e-mail addresses on a domain. Domain will get appended.",
+      "keyserver_fetch1": "PGP public key server URL to find the public key for an e-mail address. Email address will get appended.",
+      "keyserver_search2": "Backup PGP public key server URL to find e-mail addresses on a domain. Domain will get appended.",
+      "keyserver_fetch2": "Backup PGP public key server URL to find the public key for an e-mail address. Email address will get appended."
+    },
+    "uri": "agent://spiderfoot/sfp_pgp"
+  },
+  {
+    "name": "PhishStats",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Determine if an IP Address is malicious",
+    "provides": [
+      "IP_ADDRESS",
+      "MALICIOUS_IPADDR",
+      "RAW_RIR_DATA",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "checkaffiliates": true,
+      "subnetlookup": false,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Check affiliates?",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_phishstats"
+  },
+  {
+    "name": "PhishTank",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain is malicious according to PhishTank.",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_phishtank": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_phishtank"
+  },
+  {
+    "name": "Phone Number Extractor",
+    "cats": [
+      "Passive",
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify phone numbers in scraped webpages.",
+    "provides": [
+      "PHONE_NUMBER",
+      "PROVIDER_TELCO"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "DOMAIN_WHOIS",
+      "NETBLOCK_WHOIS",
+      "PHONE_NUMBER"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_phone"
+  },
+  {
+    "name": "Port Scanner - TCP",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      "slow",
+      "invasive"
+    ],
+    "descr": "Scans for commonly open TCP ports on Internet-facing systems.",
+    "provides": [
+      "TCP_PORT_OPEN",
+      "TCP_PORT_OPEN_BANNER"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "ports": [
+        "21",
+        "22",
+        "23",
+        "25",
+        "53",
+        "79",
+        "80",
+        "81",
+        "88",
+        "110",
+        "111",
+        "113",
+        "119",
+        "123",
+        "137",
+        "138",
+        "139",
+        "143",
+        "161",
+        "179",
+        "389",
+        "443",
+        "445",
+        "465",
+        "512",
+        "513",
+        "514",
+        "515",
+        "3306",
+        "5432",
+        "1521",
+        "2638",
+        "1433",
+        "3389",
+        "5900",
+        "5901",
+        "5902",
+        "5903",
+        "5631",
+        "631",
+        "636",
+        "990",
+        "992",
+        "993",
+        "995",
+        "1080",
+        "8080",
+        "8888",
+        "9000"
+      ],
+      "timeout": 15,
+      "maxthreads": 10,
+      "randomize": true,
+      "netblockscan": true,
+      "netblockscanmax": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "maxthreads": "Number of ports to try to open simultaneously (number of threads to spawn at once.)",
+      "ports": "The TCP ports to scan. Prefix with an '@' to iterate through a file containing ports to try (one per line), e.g. @C:\\ports.txt or @/home/bob/ports.txt. Or supply a URL to load the list from there.",
+      "timeout": "Seconds before giving up on a port.",
+      "randomize": "Randomize the order of ports scanned.",
+      "netblockscan": "Port scan all IPs within identified owned netblocks?",
+      "netblockscanmax": "Maximum netblock/subnet size to scan IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_portscan_tcp"
+  },
+  {
+    "name": "Psbdmp",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Check psbdmp.cc (PasteBin Dump) for potentially hacked e-mails and domains.",
+    "provides": [
+      "LEAKSITE_URL",
+      "LEAKSITE_CONTENT"
+    ],
+    "consumes": [
+      "EMAILADDR",
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_psbdmp"
+  },
+  {
+    "name": "Pulsedive",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from Pulsedive's API.",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_NETBLOCK",
+      "TCP_PORT_OPEN"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "INTERNET_NAME",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 2,
+      "age_limit_days": 30,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Pulsedive API Key.",
+      "delay": "Delay between requests, in seconds.",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_pulsedive"
+  },
+  {
+    "name": "Quad9",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by Quad9",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_quad9"
+  },
+  {
+    "name": "RIPE",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Public Registries",
+    "labels": [
+      ""
+    ],
+    "descr": "Queries the RIPE registry (includes ARIN data) to identify netblocks and other info.",
+    "provides": [
+      "NETBLOCK_MEMBER",
+      "NETBLOCK_OWNER",
+      "BGP_AS_MEMBER",
+      "RAW_RIR_DATA",
+      "BGP_AS_OWNER"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "NETBLOCK_OWNER",
+      "BGP_AS_OWNER",
+      "BGP_AS_MEMBER"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_ripe"
+  },
+  {
+    "name": "RiskIQ",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from RiskIQ's (formerly PassiveTotal) Passive DNS and Passive SSL databases.",
+    "provides": [
+      "IP_ADDRESS",
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "DOMAIN_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key_login": "",
+      "api_key_password": "",
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key_login": "RiskIQ login.",
+      "api_key_password": "RiskIQ API Key.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_riskiq"
+  },
+  {
+    "name": "Robtex",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Search Robtex.com for hosts sharing the same IP.",
+    "provides": [
+      "CO_HOSTED_SITE",
+      "IP_ADDRESS"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "verify": true,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "cohostsamedomain": false,
+      "maxcohost": 100,
+      "subnetlookup": false,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible co-hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_robtex"
+  },
+  {
+    "name": "Amazon S3 Bucket Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Search for potential Amazon S3 buckets associated with the target and attempt to list their contents.",
+    "provides": [
+      "CLOUD_STORAGE_BUCKET",
+      "CLOUD_STORAGE_BUCKET_OPEN"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {
+      "endpoints": "s3.amazonaws.com,s3-external-1.amazonaws.com,s3-us-west-1.amazonaws.com,s3-us-west-2.amazonaws.com,s3.ap-south-1.amazonaws.com,s3-ap-south-1.amazonaws.com,s3.ap-northeast-2.amazonaws.com,s3-ap-northeast-2.amazonaws.com,s3-ap-southeast-1.amazonaws.com,s3-ap-southeast-2.amazonaws.com,s3-ap-northeast-1.amazonaws.com,s3.eu-central-1.amazonaws.com,s3-eu-central-1.amazonaws.com,s3-eu-west-1.amazonaws.com,s3-sa-east-1.amazonaws.com",
+      "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+      "_maxthreads": 20
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "endpoints": "Different S3 endpoints to check where buckets may exist, as per http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region",
+      "suffixes": "List of suffixes to append to domains tried as bucket names"
+    },
+    "uri": "agent://spiderfoot/sfp_s3bucket"
+  },
+  {
+    "name": "Scylla",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather breach data from Scylla API.",
+    "provides": [
+      "EMAILADDR_COMPROMISED",
+      "PASSWORD_COMPROMISED",
+      "HASH_COMPROMISED",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "pause": 3,
+      "per_page": 20,
+      "max_pages": 20
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "pause": "Number of seconds to pause between fetches.",
+      "per_page": "Maximum number of results per page.",
+      "max_pages": "Maximum number of pages of results to fetch."
+    },
+    "uri": "agent://spiderfoot/sfp_scylla"
+  },
+  {
+    "name": "SecurityTrails",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain Passive DNS and other information from SecurityTrails",
+    "provides": [
+      "CO_HOSTED_SITE",
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME",
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "PROVIDER_HOSTING"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "DOMAIN_NAME",
+      "EMAILADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "api_key": "",
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "SecurityTrails API key.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_securitytrails"
+  },
+  {
+    "name": "security.txt",
+    "cats": [
+      "Footprint"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Retrieves and parses /.well-known/security.txt files",
+    "provides": [
+      "PGP_KEY",
+      "EMAILADDR",
+      "LINKED_URL_INTERNAL",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "DOMAINNAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_securitytxt"
+  },
+  {
+    "name": "SHODAN",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from SHODAN about identified IP addresses.",
+    "provides": [
+      "OPERATING_SYSTEM",
+      "DEVICE_TYPE",
+      "TCP_PORT_OPEN",
+      "TCP_PORT_OPEN_BANNER",
+      "RAW_RIR_DATA",
+      "GEOINFO",
+      "VULNERABILITY"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "DOMAIN_NAME",
+      "WEB_ANALYTICS_ID"
+    ],
+    "opts": {
+      "api_key": "",
+      "netblocklookup": true,
+      "maxnetblock": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "SHODAN API Key.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_shodan"
+  },
+  {
+    "name": "Similar Domain Finder",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "DNS",
+    "labels": [
+      ""
+    ],
+    "descr": "Search various sources to identify similar looking domain names, for instance squatted domains.",
+    "provides": [
+      "SIMILARDOMAIN"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_similar"
+  },
+  {
+    "name": "Skymem",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Look up e-mail addresses on Skymem.",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "DOMAIN_NAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_skymem"
+  },
+  {
+    "name": "SlideShare",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather name and location from SlideShare profiles.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "GEOINFO"
+    ],
+    "consumes": [
+      "SOCIAL_MEDIA"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_slideshare"
+  },
+  {
+    "name": "Snov",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Gather available email IDs from identified domains",
+    "provides": [
+      "EMAILADDR",
+      "EMAILADDR_GENERIC"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "api_key_client_id": "",
+      "api_key_client_secret": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key_client_id": "Client ID for snov.io API",
+      "api_key_client_secret": "Client Secret for snov.io API"
+    },
+    "uri": "agent://spiderfoot/sfp_snov"
+  },
+  {
+    "name": "Social Network Identifier",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify presence on social media networks such as LinkedIn, Twitter and others.",
+    "provides": [
+      "SOCIAL_MEDIA",
+      "USERNAME"
+    ],
+    "consumes": [
+      "LINKED_URL_EXTERNAL"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_social"
+  },
+  {
+    "name": "Social Media Profile Finder",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      "slow",
+      "apikey"
+    ],
+    "descr": "Tries to discover the social media profiles for human names identified.",
+    "provides": [
+      "SOCIAL_MEDIA",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "HUMAN_NAME"
+    ],
+    "opts": {
+      "count": 20,
+      "method": "bing",
+      "tighten": true,
+      "bing_api_key": "",
+      "google_api_key": "",
+      "google_cse_id": "013611106330597893267:tfgl3wxdtbp"
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "count": "Number of bing search engine results of identified profiles to iterate through.",
+      "method": "Search engine to use: 'google' or 'bing'.",
+      "tighten": "Tighten results by expecting to find the keyword of the target domain mentioned in the social media profile page results?",
+      "bing_api_key": "Bing API Key for social media profile search.",
+      "google_api_key": "Google API Key for social media profile search.",
+      "google_cse_id": "Google Custom Search Engine ID."
+    },
+    "uri": "agent://spiderfoot/sfp_socialprofiles"
+  },
+  {
+    "name": "SORBS",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Query the SORBS database for open relays, open proxies, vulnerable servers, etc.",
+    "provides": [
+      "BLACKLISTED_IPADDR",
+      "BLACKLISTED_AFFILIATE_IPADDR",
+      "BLACKLISTED_SUBNET",
+      "BLACKLISTED_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_sorbs"
+  },
+  {
+    "name": "SpamCop",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Query various spamcop databases for open relays, open proxies, vulnerable servers, etc.",
+    "provides": [
+      "BLACKLISTED_IPADDR",
+      "BLACKLISTED_AFFILIATE_IPADDR",
+      "BLACKLISTED_SUBNET",
+      "BLACKLISTED_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_spamcop"
+  },
+  {
+    "name": "Spamhaus",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Query the Spamhaus databases for open relays, open proxies, vulnerable servers, etc.",
+    "provides": [
+      "BLACKLISTED_IPADDR",
+      "BLACKLISTED_AFFILIATE_IPADDR",
+      "BLACKLISTED_SUBNET",
+      "BLACKLISTED_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_spamhaus"
+  },
+  {
+    "name": "Web Spider",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      "slow"
+    ],
+    "descr": "Spidering of web-pages to extract content for searching.",
+    "provides": [
+      "WEBSERVER_HTTPHEADERS",
+      "HTTP_CODE",
+      "LINKED_URL_INTERNAL",
+      "LINKED_URL_EXTERNAL",
+      "TARGET_WEB_CONTENT",
+      "TARGET_WEB_CONTENT_TYPE"
+    ],
+    "consumes": [
+      "LINKED_URL_INTERNAL",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "robotsonly": false,
+      "pausesec": 0,
+      "maxpages": 100,
+      "maxlevels": 3,
+      "usecookies": true,
+      "start": [
+        "http://",
+        "https://"
+      ],
+      "filterfiles": [
+        "png",
+        "gif",
+        "jpg",
+        "jpeg",
+        "tiff",
+        "tif",
+        "tar",
+        "pdf",
+        "ico",
+        "flv",
+        "mp4",
+        "mp3",
+        "avi",
+        "mpg",
+        "gz",
+        "mpeg",
+        "iso",
+        "dat",
+        "mov",
+        "swf",
+        "rar",
+        "exe",
+        "zip",
+        "bin",
+        "bz2",
+        "xsl",
+        "doc",
+        "docx",
+        "ppt",
+        "pptx",
+        "xls",
+        "xlsx",
+        "csv"
+      ],
+      "filtermime": [
+        "image/"
+      ],
+      "filterusers": true,
+      "nosubs": false,
+      "reportduplicates": false
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "robotsonly": "Only follow links specified by robots.txt?",
+      "usecookies": "Accept and use cookies?",
+      "pausesec": "Number of seconds to pause between page fetches.",
+      "start": "Prepend targets with these until you get a hit, to start spidering.",
+      "maxpages": "Maximum number of pages to fetch per starting point identified.",
+      "maxlevels": "Maximum levels to traverse per starting point (e.g. hostname or link identified by another module) identified.",
+      "filterfiles": "File extensions to ignore (don't fetch them.)",
+      "filtermime": "MIME types to ignore.",
+      "filterusers": "Skip spidering of /~user directories?",
+      "nosubs": "Skip spidering of subdomains of the target?",
+      "reportduplicates": "Report links every time one is found, even if found before?"
+    },
+    "uri": "agent://spiderfoot/sfp_spider"
+  },
+  {
+    "name": "spur.us",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information about any malicious activities involving IP addresses found",
+    "provides": [
+      "IP_ADDRESS",
+      "MALICIOUS_IPADDR",
+      "RAW_RIR_DATA",
+      "GEO_INFO",
+      "COMPANY_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "api_key": "",
+      "checkaffiliates": true,
+      "subnetlookup": false,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "maxsubnet": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "spur.us API Key",
+      "checkaffiliates": "Check affiliates?",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_spur"
+  },
+  {
+    "name": "SpyOnWeb",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Search SpyOnWeb for hosts sharing the same IP address, Google Analytics code, or Google Adsense code.",
+    "provides": [
+      "CO_HOSTED_SITE",
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "WEB_ANALYTICS_ID",
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "INTERNET_NAME",
+      "DOMAIN_NAME",
+      "WEB_ANALYTICS_ID"
+    ],
+    "opts": {
+      "api_key": "",
+      "limit": 100,
+      "timeout": 30,
+      "maxage": 1095,
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "SpyOnWeb API key.",
+      "limit": "Maximum number of results to fetch.",
+      "timeout": "Query timeout, in seconds.",
+      "maxage": "The maximum age of the data returned, in days, in order to be considered valid.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_spyonweb"
+  },
+  {
+    "name": "Spyse",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Passive DNS",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "SpiderFoot plug-in to search Spyse API for IP address and domain information.",
+    "provides": [
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "DOMAIN_NAME",
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "CO_HOSTED_SITE",
+      "RAW_RIR_DATA",
+      "TCP_PORT_OPEN",
+      "OPERATING_SYSTEM",
+      "WEBSERVER_BANNER",
+      "WEBSERVER_HTTPHEADERS"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "IPV6_ADDRESS",
+      "DOMAIN_NAME",
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "delay": 1,
+      "verify": true,
+      "cohostsamedomain": false,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Spyse API key.",
+      "delay": "Delay between requests, in seconds.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_spyse"
+  },
+  {
+    "name": "SSL Certificate Analyzer",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather information about SSL certificates used by the target's HTTPS sites.",
+    "provides": [
+      "TCP_PORT_OPEN",
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME_UNRESOLVED",
+      "SSL_CERTIFICATE_ISSUED",
+      "SSL_CERTIFICATE_ISSUER",
+      "SSL_CERTIFICATE_MISMATCH",
+      "SSL_CERTIFICATE_EXPIRED",
+      "SSL_CERTIFICATE_EXPIRING",
+      "SSL_CERTIFICATE_RAW",
+      "DOMAIN_NAME",
+      "AFFILIATE_DOMAIN_NAME"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "LINKED_URL_INTERNAL",
+      "IP_ADDRESS"
+    ],
+    "opts": {
+      "tryhttp": true,
+      "verify": true,
+      "ssltimeout": 10,
+      "certexpiringdays": 30
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "tryhttp": "Also try to HTTPS-connect to HTTP sites and hostnames.",
+      "verify": "Verify certificate subject alternative names resolve.",
+      "ssltimeout": "Seconds before giving up trying to HTTPS connect.",
+      "certexpiringdays": "Number of days in the future a certificate expires to consider it as expiring."
+    },
+    "uri": "agent://spiderfoot/sfp_sslcert"
+  },
+  {
+    "name": "Strange Header Identifier",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain non-standard HTTP headers returned by web servers.",
+    "provides": [
+      "WEBSERVER_STRANGEHEADER"
+    ],
+    "consumes": [
+      "WEBSERVER_HTTPHEADERS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_strangeheaders"
+  },
+  {
+    "name": "Subdomain Takeover",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if affiliated subdomains are vulnerable to takeover.",
+    "provides": [
+      "AFFILIATE_INTERNET_NAME_HIJACKABLE"
+    ],
+    "consumes": [
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME_UNRESOLVED"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_subdomain_takeover"
+  },
+  {
+    "name": "Talos Intelligence",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a netblock or IP is malicious according to talosintelligence.com.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_talosintel": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_talosintel"
+  },
+  {
+    "name": "ThreatCrowd",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain information from ThreatCrowd about identified IP addresses, domains and e-mail addresses.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_NETBLOCK",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_EMAILADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "INTERNET_NAME",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER",
+      "EMAILADDR",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_INTERNET_NAME"
+    ],
+    "opts": {
+      "checkcohosts": true,
+      "checkaffiliates": true,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkcohosts": "Check co-hosted sites?",
+      "checkaffiliates": "Check affiliates?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_threatcrowd"
+  },
+  {
+    "name": "ThreatMiner",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain information from ThreatMiner's database for passive DNS and threat intelligence.",
+    "provides": [
+      "INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "DOMAIN_NAME",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "verify": true,
+      "netblocklookup": false,
+      "maxnetblock": 24,
+      "subnetlookup": false,
+      "maxsubnet": 24,
+      "maxcohost": 100,
+      "age_limit_days": 90
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "verify": "Verify that any hostnames found on the target domain still resolve?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+      "age_limit_days": "Ignore records older than this many days. 0 = Unlimited."
+    },
+    "uri": "agent://spiderfoot/sfp_threatminer"
+  },
+  {
+    "name": "TLD Searcher",
+    "cats": [
+      "Footprint"
+    ],
+    "group": "DNS",
+    "labels": [
+      "slow"
+    ],
+    "descr": "Search all Internet TLDs for domains with the same name as the target (this can be very slow.)",
+    "provides": [
+      "SIMILARDOMAIN"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "activeonly": false,
+      "skipwildcards": true,
+      "_maxthreads": 50
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "activeonly": "Only report domains that have content (try to fetch the page)?",
+      "skipwildcards": "Skip TLDs and sub-TLDs that have wildcard DNS."
+    },
+    "uri": "agent://spiderfoot/sfp_tldsearch"
+  },
+  {
+    "name": "Tool - CMSeeK",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      "tool"
+    ],
+    "descr": "Identify what Content Management System (CMS) might be used.",
+    "provides": [
+      "WEBSERVER_TECHNOLOGY"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "pythonpath": "python3",
+      "cmseekpath": ""
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "pythonpath": "Path to Python 3 interpreter to use for CMSeeK. If just 'python3' then it must be in your PATH.",
+      "cmseekpath": "Path to the where the cmseek.py file lives. Must be set."
+    },
+    "uri": "agent://spiderfoot/sfp_tool_cmseek"
+  },
+  {
+    "name": "Tool - DNSTwist",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "DNS",
+    "labels": [
+      "tool"
+    ],
+    "descr": "Identify bit-squatting, typo and other similar domains to the target using a local DNSTwist installation.",
+    "provides": [
+      "SIMILARDOMAIN"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "pythonpath": "python",
+      "dnstwistpath": ""
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "pythonpath": "Path to Python interpreter to use for DNSTwist. If just 'python' then it must be in your PATH.",
+      "dnstwistpath": "Path to the where the dnstwist.py file lives. Must be set."
+    },
+    "uri": "agent://spiderfoot/sfp_tool_dnstwist"
+  },
+  {
+    "name": "Tool - Nmap",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Crawling and Scanning",
+    "labels": [
+      "tool",
+      "slow",
+      "invasive"
+    ],
+    "descr": "Identify what Operating System might be used.",
+    "provides": [
+      "OPERATING_SYSTEM"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "nmappath": "",
+      "netblockscan": true,
+      "netblockscanmax": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "nmappath": "Path to the where the nmap binary lives. Must be set.",
+      "netblockscan": "Port scan all IPs within identified owned netblocks?",
+      "netblockscanmax": "Maximum netblock/subnet size to scan IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_tool_nmap"
+  },
+  {
+    "name": "Tool - WhatWeb",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      "tool"
+    ],
+    "descr": "Identify what software is in use on the specified website.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "WEBSERVER_BANNER",
+      "WEBSERVER_TECHNOLOGY"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "aggression": 1,
+      "ruby_path": "ruby",
+      "whatweb_path": ""
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "aggression": "Set WhatWeb aggression level (1-4)",
+      "ruby_path": "Path to Ruby interpreter to use for WhatWeb. If just 'ruby' then it must be in your $PATH.",
+      "whatweb_path": "Path to the whatweb executable file. Must be set."
+    },
+    "uri": "agent://spiderfoot/sfp_tool_whatweb"
+  },
+  {
+    "name": "TORCH",
+    "cats": [
+      "Footprint",
+      "Investigate"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "errorprone"
+    ],
+    "descr": "Search Tor 'TORCH' search engine for mentions of the target domain.",
+    "provides": [
+      "DARKNET_MENTION_URL",
+      "DARKNET_MENTION_CONTENT",
+      "SEARCH_ENGINE_WEB_CONTENT"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "HUMAN_NAME",
+      "EMAILADDR"
+    ],
+    "opts": {
+      "fetchlinks": true,
+      "pages": 20,
+      "fullnames": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "fetchlinks": "Fetch the darknet pages (via TOR, if enabled) to verify they mention your target.",
+      "pages": "Number of results pages to iterate through.",
+      "fullnames": "Search for human names?"
+    },
+    "uri": "agent://spiderfoot/sfp_torch"
+  },
+  {
+    "name": "TOR Exit Nodes",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Secondary Networks",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP or netblock appears on the torproject.org exit node list.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_torexits": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_torexits"
+  },
+  {
+    "name": "TotalHash.com",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host/domain or IP is malicious according to TotalHash.com.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_totalhash": true,
+      "checkaffiliates": true,
+      "checkcohosts": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?"
+    },
+    "uri": "agent://spiderfoot/sfp_totalhash"
+  },
+  {
+    "name": "Twilio",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from Twilio about phone numbers. Ensure you have the Caller Name add-on installed in Twilio.",
+    "provides": [
+      "COMPANY_NAME",
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "PHONE_NUMBER"
+    ],
+    "opts": {
+      "api_key_account_sid": "",
+      "api_key_auth_token": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key_account_sid": "Twilio Account SID",
+      "api_key_auth_token": "Twilio Auth Token"
+    },
+    "uri": "agent://spiderfoot/sfp_twilio"
+  },
+  {
+    "name": "Twitter",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather name and location from Twitter profiles.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "GEOINFO"
+    ],
+    "consumes": [
+      "SOCIAL_MEDIA"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_twitter"
+  },
+  {
+    "name": "UCEPROTECT",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Query the UCEPROTECT databases for open relays, open proxies, vulnerable servers, etc.",
+    "provides": [
+      "BLACKLISTED_IPADDR",
+      "BLACKLISTED_AFFILIATE_IPADDR",
+      "BLACKLISTED_SUBNET",
+      "BLACKLISTED_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+    },
+    "uri": "agent://spiderfoot/sfp_uceprotect"
+  },
+  {
+    "name": "URLScan.io",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      ""
+    ],
+    "descr": "Search URLScan.io cache for domain information.",
+    "provides": [
+      "GEOINFO",
+      "LINKED_URL_INTERNAL",
+      "RAW_RIR_DATA",
+      "DOMAIN_NAME",
+      "INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "BGP_AS_MEMBER",
+      "WEBSERVER_BANNER"
+    ],
+    "consumes": [
+      "INTERNET_NAME"
+    ],
+    "opts": {
+      "verify": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "verify": "Verify that any hostnames found on the target domain still resolve?"
+    },
+    "uri": "agent://spiderfoot/sfp_urlscan"
+  },
+  {
+    "name": "Venmo",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Social Media",
+    "labels": [
+      ""
+    ],
+    "descr": "Gather user information from Venmo API.",
+    "provides": [
+      "RAW_RIR_DATA"
+    ],
+    "consumes": [
+      "USERNAME"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_venmo"
+  },
+  {
+    "name": "ViewDNS.info",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Reverse Whois lookups using ViewDNS.info.",
+    "provides": [
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_DOMAIN_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "consumes": [
+      "EMAILADDR",
+      "IP_ADDRESS",
+      "PROVIDER_DNS"
+    ],
+    "opts": {
+      "api_key": "",
+      "verify": true,
+      "maxcohost": 100
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "ViewDNS.info API key.",
+      "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+    },
+    "uri": "agent://spiderfoot/sfp_viewdns"
+  },
+  {
+    "name": "VirusTotal",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from VirusTotal about identified IP addresses.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_NETBLOCK",
+      "MALICIOUS_SUBNET",
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "INTERNET_NAME_UNRESOLVED",
+      "DOMAIN_NAME"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "INTERNET_NAME",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER"
+    ],
+    "opts": {
+      "api_key": "",
+      "verify": true,
+      "publicapi": true,
+      "checkcohosts": true,
+      "checkaffiliates": true,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "VirusTotal API Key.",
+      "publicapi": "Are you using a public key? If so SpiderFoot will pause for 15 seconds after each query to avoid VirusTotal dropping requests.",
+      "checkcohosts": "Check co-hosted sites?",
+      "checkaffiliates": "Check affiliates?",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "verify": "Verify that any hostnames found on the target domain still resolve?"
+    },
+    "uri": "agent://spiderfoot/sfp_virustotal"
+  },
+  {
+    "name": "VoIPBL OpenPBX IPs",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP or netblock is an open PBX according to VoIPBL OpenPBX IPs.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_SUBNET",
+      "MALICIOUS_NETBLOCK"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_IPADDR",
+      "NETBLOCK_OWNER"
+    ],
+    "opts": {
+      "_voipbl": true,
+      "checkaffiliates": true,
+      "cacheperiod": 18,
+      "checknetblocks": true,
+      "checksubnets": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "cacheperiod": "Hours to cache list data before re-fetching.",
+      "checknetblocks": "Report if any malicious IPs are found within owned netblocks?",
+      "checksubnets": "Check if any malicious IPs are found within the same subnet of the target?"
+    },
+    "uri": "agent://spiderfoot/sfp_voipbl"
+  },
+  {
+    "name": "VXVault.net",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a domain or IP is malicious according to VXVault.net.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "_vxvault": true,
+      "checkaffiliates": true,
+      "checkcohosts": true,
+      "cacheperiod": 18
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?",
+      "checkcohosts": "Apply checks to sites found to be co-hosted on the target's IP?",
+      "cacheperiod": "Hours to cache list data before re-fetching."
+    },
+    "uri": "agent://spiderfoot/sfp_vxvault"
+  },
+  {
+    "name": "Watchguard",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if an IP is malicious according to Watchguard's reputationauthority.org.",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR"
+    ],
+    "opts": {
+      "_watchguard": true,
+      "checkaffiliates": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkaffiliates": "Apply checks to affiliates?"
+    },
+    "uri": "agent://spiderfoot/sfp_watchguard"
+  },
+  {
+    "name": "Web Analytics Extractor",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify web analytics IDs in scraped webpages and DNS TXT records.",
+    "provides": [
+      "WEB_ANALYTICS_ID"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT",
+      "DNS_TEXT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_webanalytics"
+  },
+  {
+    "name": "Web Framework Identifier",
+    "cats": [
+      "Footprint",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify the usage of popular web frameworks like jQuery, YUI and others.",
+    "provides": [
+      "URL_WEB_FRAMEWORK"
+    ],
+    "consumes": [
+      "TARGET_WEB_CONTENT"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_webframework"
+  },
+  {
+    "name": "Web Server Identifier",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      ""
+    ],
+    "descr": "Obtain web server banners to identify versions of web servers being used.",
+    "provides": [
+      "WEBSERVER_BANNER",
+      "WEBSERVER_TECHNOLOGY",
+      "LINKED_URL_INTERNAL",
+      "LINKED_URL_EXTERNAL"
+    ],
+    "consumes": [
+      "WEBSERVER_HTTPHEADERS"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "uri": "agent://spiderfoot/sfp_webserver"
+  },
+  {
+    "name": "WhatCMS",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Content Analysis",
+    "labels": [
+      "apikey",
+      "slow"
+    ],
+    "descr": "Check web technology using WhatCMS.org API.",
+    "provides": [
+      "RAW_RIR_DATA",
+      "WEBSERVER_TECHNOLOGY"
+    ],
+    "consumes": [
+      "DOMAIN_NAME"
+    ],
+    "opts": {
+      "api_key": "",
+      "timeout": 25,
+      "delay": 10
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "WhatCMS API key",
+      "timeout": "Query timeout, in seconds.",
+      "delay": "Delay between requests, in seconds."
+    },
+    "uri": "agent://spiderfoot/sfp_whatcms"
+  },
+  {
+    "name": "Whois",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Public Registries",
+    "labels": [
+      ""
+    ],
+    "descr": "Perform a WHOIS look-up on domain names and owned netblocks.",
+    "provides": [
+      "DOMAIN_WHOIS",
+      "NETBLOCK_WHOIS",
+      "DOMAIN_REGISTRAR",
+      "CO_HOSTED_SITE_DOMAIN_WHOIS",
+      "AFFILIATE_DOMAIN_WHOIS",
+      "SIMILARDOMAIN_WHOIS"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "DOMAIN_NAME_PARENT",
+      "NETBLOCK_OWNER",
+      "CO_HOSTED_SITE_DOMAIN",
+      "AFFILIATE_DOMAIN_NAME",
+      "SIMILARDOMAIN"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_whois"
+  },
+  {
+    "name": "Whoisology",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Reverse Whois lookups using Whoisology.com.",
+    "provides": [
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_DOMAIN_NAME"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Whoisology.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_whoisology"
+  },
+  {
+    "name": "Whoxy",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Search Engines",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Reverse Whois lookups using Whoxy.com.",
+    "provides": [
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_DOMAIN_NAME"
+    ],
+    "consumes": [
+      "EMAILADDR"
+    ],
+    "opts": {
+      "api_key": ""
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key": "Whoxy.com API key."
+    },
+    "uri": "agent://spiderfoot/sfp_whoxy"
+  },
+  {
+    "name": "Wigle.net",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Secondary Networks",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Query wigle.net to identify nearby WiFi access points.",
+    "provides": [
+      "WIFI_ACCESS_POINT"
+    ],
+    "consumes": [
+      "PHYSICAL_ADDRESS"
+    ],
+    "opts": {
+      "api_key_encoded": "",
+      "days_limit": "365",
+      "variance": "0.01"
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "api_key_encoded": "Wigle.net base64-encoded API name/token pair.",
+      "days_limit": "Maximum age of data to be considered valid.",
+      "variance": "How tightly to bound queries against the latitude/longitude box extracted from idenified addresses. This value must be between 0.001 and 0.2."
+    },
+    "uri": "agent://spiderfoot/sfp_wigle"
+  },
+  {
+    "name": "Wikileaks",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Search Wikileaks for mentions of domain names and e-mail addresses.",
+    "provides": [
+      "LEAKSITE_CONTENT",
+      "LEAKSITE_URL",
+      "SEARCH_ENGINE_WEB_CONTENT"
+    ],
+    "consumes": [
+      "DOMAIN_NAME",
+      "EMAILADDR",
+      "HUMAN_NAME"
+    ],
+    "opts": {
+      "daysback": 365,
+      "external": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "daysback": "How many days back to consider a leak valid for capturing. 0 = unlimited.",
+      "external": "Include external leak sources such as Associated Twitter accounts, Snowden + Hammond Documents, Cryptome Documents, ICWatch, This Day in WikiLeaks Blog and WikiLeaks Press, WL Central."
+    },
+    "uri": "agent://spiderfoot/sfp_wikileaks"
+  },
+  {
+    "name": "Wikipedia Edits",
+    "cats": [
+      "Footprint",
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Secondary Networks",
+    "labels": [
+      ""
+    ],
+    "descr": "Identify edits to Wikipedia articles made from a given IP address or username.",
+    "provides": [
+      "WIKIPEDIA_PAGE_EDIT"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "USERNAME"
+    ],
+    "opts": {
+      "days_limit": "365"
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "days_limit": "Maximum age of data to be considered valid (0 = unlimited)."
+    },
+    "uri": "agent://spiderfoot/sfp_wikipediaedits"
+  },
+  {
+    "name": "XForce Exchange",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      "apikey"
+    ],
+    "descr": "Obtain information from IBM X-Force Exchange",
+    "provides": [
+      "MALICIOUS_IPADDR",
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_COHOST",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_IPADDR",
+      "MALICIOUS_NETBLOCK",
+      "CO_HOSTED_SITE"
+    ],
+    "consumes": [
+      "IP_ADDRESS",
+      "AFFILIATE_IPADDR",
+      "INTERNET_NAME",
+      "CO_HOSTED_SITE",
+      "NETBLOCK_OWNER",
+      "NETBLOCK_MEMBER",
+      "AFFILIATE_INTERNET_NAME"
+    ],
+    "opts": {
+      "xforce_api_key": "",
+      "xforce_api_key_password": "",
+      "age_limit_days": 30,
+      "netblocklookup": true,
+      "maxnetblock": 24,
+      "subnetlookup": true,
+      "maxsubnet": 24,
+      "maxcohost": 100,
+      "checkaffiliates": true
+    },
+    "needs_api_key": true,
+    "optdescs": {
+      "xforce_api_key": "X-Force Exchange API Key.",
+      "xforce_api_key_password": "X-Force Exchange API Password.",
+      "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
+      "netblocklookup": "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
+      "maxnetblock": "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "subnetlookup": "Look up all IPs on subnets which your target is a part of for blacklisting?",
+      "maxsubnet": "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+      "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+      "checkaffiliates": "Apply checks to affiliates?"
+    },
+    "uri": "agent://spiderfoot/sfp_xforce"
+  },
+  {
+    "name": "Yandex DNS",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Reputation Systems",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a host would be blocked by Yandex DNS",
+    "provides": [
+      "MALICIOUS_INTERNET_NAME",
+      "MALICIOUS_AFFILIATE_INTERNET_NAME",
+      "MALICIOUS_COHOST"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "AFFILIATE_INTERNET_NAME",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {},
+    "needs_api_key": false,
+    "optdescs": {},
+    "uri": "agent://spiderfoot/sfp_yandexdns"
+  },
+  {
+    "name": "Zone-H Defacement Check",
+    "cats": [
+      "Investigate",
+      "Passive"
+    ],
+    "group": "Leaks, Dumps and Breaches",
+    "labels": [
+      ""
+    ],
+    "descr": "Check if a hostname/domain appears on the zone-h.org 'special defacements' RSS feed.",
+    "provides": [
+      "DEFACED_INTERNET_NAME",
+      "DEFACED_IPADDR",
+      "DEFACED_AFFILIATE_INTERNET_NAME",
+      "DEFACED_COHOST",
+      "DEFACED_AFFILIATE_IPADDR"
+    ],
+    "consumes": [
+      "INTERNET_NAME",
+      "IP_ADDRESS",
+      "AFFILIATE_INTERNET_NAME",
+      "AFFILIATE_IPADDR",
+      "CO_HOSTED_SITE"
+    ],
+    "opts": {
+      "checkcohosts": true,
+      "checkaffiliates": true
+    },
+    "needs_api_key": false,
+    "optdescs": {
+      "checkcohosts": "Check co-hosted sites?",
+      "checkaffiliates": "Check affiliates?"
+    },
+    "uri": "agent://spiderfoot/sfp_zoneh"
+  }
+]
